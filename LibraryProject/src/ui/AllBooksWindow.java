@@ -45,6 +45,7 @@ public class AllBooksWindow extends Stage implements LibWindow {
 		ta = new TextArea();
 		grid.add(ta, 0,1);
 		Button backBtn = new Button("<= Back to Main");
+		Button newBookBtn = new Button("Add new book");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
@@ -52,9 +53,20 @@ public class AllBooksWindow extends Stage implements LibWindow {
         		Start.primStage().show();
         	}
         });
+        newBookBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				Start.hideAllWindows();
+				AddNewBook.INSTANCE.show();
+				
+			}
+        	
+        });
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
+        hBack.getChildren().add(newBookBtn);
         grid.add(hBack, 0, 2);
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
