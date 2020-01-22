@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.NewLogin">
+   <children>
+      <Label layoutX="162.0" layoutY="33.0" prefHeight="35.0" prefWidth="289.0" text="MEMBER LOGIN" textFill="#0e0446">
+         <font>
+            <Font name="Arial Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="89.0" prefHeight="36.0" prefWidth="193.0" text="User Name">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="179.0" prefHeight="17.0" prefWidth="123.0" text="Pass Word">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usrName" layoutX="105.0" layoutY="125.0" prefHeight="42.0" prefWidth="403.0" />
+      <PasswordField fx:id="pwd" layoutX="105.0" layoutY="215.0" prefHeight="42.0" prefWidth="403.0" />
+      <Button fx:id="btn" defaultButton="true" layoutX="105.0" layoutY="289.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="403.0" text="Submit" textFill="#0e0446" onAction="#logins">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

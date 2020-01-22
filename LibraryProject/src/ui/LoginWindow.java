@@ -3,15 +3,13 @@ package ui;
 import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
+import dataaccess.Auth;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -65,6 +63,8 @@ public class LoginWindow extends Stage implements LibWindow {
         grid.add(pwBox, 1, 2);
 
         Button loginBtn = new Button("Log in");
+        loginBtn.setStyle("-fx-background-color: #468b00;");
+        loginBtn.setTextFill(Color.GHOSTWHITE);
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(loginBtn);
@@ -75,23 +75,77 @@ public class LoginWindow extends Stage implements LibWindow {
         messageBox.getChildren().add(messageBar);;
         grid.add(messageBox, 1, 6);
         
+//        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//        		try {
+//        			ControllerInterface c = new SystemController();
+//        			c.login(userTextField.getText().trim(), pwBox.getText().trim());
+//
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Login Information");
+//                    alert.setHeaderText(null);
+//                    alert.setContentText("Successfully Logged In!");
+//
+//                    alert.showAndWait();
+//                    messageBar.setFill(Start.Colors.green);
+//             	    messageBar.setText("Login successful");
+//        		} catch(LoginException ex) {
+//        			messageBar.setFill(Start.Colors.red);
+//        			messageBar.setText("Error! " + ex.getMessage());
+//        		}
+//
+//        	}
+//        });
+
         loginBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		try {
-        			ControllerInterface c = new SystemController();
-        			c.login(userTextField.getText().trim(), pwBox.getText().trim());
-        			messageBar.setFill(Start.Colors.green);
-             	    messageBar.setText("Login successful");
-        		} catch(LoginException ex) {
-        			messageBar.setFill(Start.Colors.red);
-        			messageBar.setText("Error! " + ex.getMessage());
-        		}
-        	   
-        	}
+            @Override
+            public void handle(ActionEvent e) {
+                try {
+                    ControllerInterface c = new SystemController();
+                    c.login(userTextField.getText().trim(), pwBox.getText().trim());
+                    messageBar.setFill(Start.Colors.green);
+                    messageBar.setText("Login successful");
+
+                    if(c.getcurrentAuth() == Auth.LIBRARIAN)
+                    {
+                        Start.hideAllWindows();
+                        if(!LibrarianStartWindow.INSTANCE.isInitialized()) {
+                            LibrarianStartWindow.INSTANCE.init();
+                        }
+                        LibrarianStartWindow.INSTANCE.show();
+                    }
+
+                    else if(c.getcurrentAuth() == Auth.ADMIN)
+                    {
+                        Start.hideAllWindows();
+                        if(!AdminAccess.INSTANCE.isInitialized()) {
+                            AdminAccess.INSTANCE.init();
+                        }
+                        AdminAccess.INSTANCE.show();
+
+                    }
+                    else if(c.getcurrentAuth() == Auth.BOTH)
+                    {
+                        Start.hideAllWindows();
+                        if(!Both.INSTANCE.isInitialized()) {
+                            Both.INSTANCE.init();
+                        }
+                        Both.INSTANCE.show();
+
+                    }
+
+                } catch(LoginException ex) {
+                    messageBar.setFill(Start.Colors.red);
+                    messageBar.setText("Error! " + ex.getMessage());
+                }
+
+            }
         });
 
-        Button backBtn = new Button("<= Back to Main");
+        Button backBtn = new Button("<<Back");
+        backBtn.setStyle("-fx-background-color: #2c5800;");
+        backBtn.setTextFill(Color.GHOSTWHITE);
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {

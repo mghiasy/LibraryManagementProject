@@ -1,19 +1,20 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import business.ControllerInterface;
+import business.LibraryMember;
 import business.SystemController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -32,23 +33,55 @@ public class Start extends Application {
 	public static Stage primStage() {
 		return primStage;
 	}
-	
+
 	public static class Colors {
-		static Color green = Color.web("#034220");
+		static Color green = Color.ANTIQUEWHITE;
 		static Color red = Color.FIREBRICK;
 	}
-	
-	private static Stage[] allWindows = { 
-		LoginWindow.INSTANCE,
-		AllMembersWindow.INSTANCE,	
-		AllBooksWindow.INSTANCE
+
+//	public static class Colors {
+//		static Color green = Color.web("#034220");
+//		static Color red = Color.FIREBRICK;
+//	}
+
+	private static Stage[] allWindows = {
+			LoginWindow.INSTANCE,
+			AllMembersWindow.INSTANCE,
+			AllBooksWindow.INSTANCE,
+//			CheckoutWindow.INSTANCE,
+//			CheckoutBookConfirm.INSTANCE,
+			LibrarianStartWindow.INSTANCE,
+			DisplayMemberHistory.INSTANCE,
+			History.INSTANCE,
+			NewMember.INSTANCE,
+			AdminAccess.INSTANCE,
+//			AddCopyWindow.INSTANCE,
+			Both.INSTANCE,
+//			AddBookWindow.INSTANCE
 	};
-	
+
+	public static Stage retDisplayMemberHistory() {
+		return allWindows[6];
+	}
+
+	public static void hideHistory() {
+		allWindows[7].hide();
+	}
+
 	public static void hideAllWindows() {
 		primStage.hide();
 		for(Stage st: allWindows) {
 			st.hide();
 		}
+	}
+
+	public static void hideAddWindow () {
+		allWindows[10].hide();
+	}
+
+	public static void hideCheckout() {
+		primStage.hide();
+		allWindows[5].hide();
 	}
 	
 
@@ -69,7 +102,7 @@ public class Start extends Application {
         imageHolder.getChildren().add(iv);
         imageHolder.setAlignment(Pos.CENTER);
         HBox splashBox = new HBox();
-        Label splashLabel = new Label("The Library System");
+        Label splashLabel = new Label("Library Memeber Login");
         splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
         splashBox.getChildren().add(splashLabel);
         splashBox.setAlignment(Pos.CENTER);
@@ -113,7 +146,7 @@ public class Start extends Application {
             }
 		});
 		
-		MenuItem memberIds = new MenuItem("All Member Ids");
+		MenuItem memberIds = new MenuItem("View Library Members");
 		memberIds.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -122,13 +155,18 @@ public class Start extends Application {
 					AllMembersWindow.INSTANCE.init();
 				}
 				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
+				List<LibraryMember> members = ci.allMembers();
+				System.out.println(members);
 				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
+
+				ObservableList data = FXCollections.observableList(members);
+
+//				for(LibraryMember s: members) {
+//					sb.append(s + "\n");
+//				}
+//
+//
+
 				System.out.println(sb.toString());
 				AllMembersWindow.INSTANCE.setData(sb.toString());
 				AllMembersWindow.INSTANCE.show();

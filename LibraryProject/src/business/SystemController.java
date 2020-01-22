@@ -12,7 +12,22 @@ import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
-	
+
+//	public void loginAdmin()
+//	{
+//		currentAuth = Auth.ADMIN;
+//	}
+//
+//	public void loginLibrarian()
+//	{
+//		currentAuth = Auth.LIBRARIAN;
+//	}
+//
+//	public void loginBoth()
+//	{
+//		currentAuth = Auth.BOTH;
+//	}
+
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -24,13 +39,32 @@ public class SystemController implements ControllerInterface {
 			throw new LoginException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
-		
+	}
+
+	//farahat
+	public void addMember(LibraryMember m)
+	{
+		DataAccess data = new DataAccessFacade();
+		data.saveNewMember(m);
+	}
+	public Auth getcurrentAuth()
+	{
+		return currentAuth;
 	}
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
+		//Members
 		retval.addAll(da.readMemberMap().keySet());
+		return retval;
+	}
+
+	public List<LibraryMember> allMembers() {
+		DataAccess da = new DataAccessFacade();
+		List<LibraryMember> retval = new ArrayList<>();
+		//Members
+		retval.addAll(da.readMemberMap().values());
 		return retval;
 	}
 	
