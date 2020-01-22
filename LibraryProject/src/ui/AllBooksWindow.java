@@ -1,4 +1,5 @@
 package ui;
+
 //test abanoub
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -58,6 +59,9 @@ public class AllBooksWindow extends Stage implements LibWindow {
 			@Override
 			public void handle(ActionEvent event) {
 				Start.hideAllWindows();
+				if(!AddNewBook.INSTANCE.isInitialized()) {
+					AddNewBook.INSTANCE.init();
+				}
 				AddNewBook.INSTANCE.show();
 				
 			}
@@ -72,4 +76,5 @@ public class AllBooksWindow extends Stage implements LibWindow {
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}
+	
 }
