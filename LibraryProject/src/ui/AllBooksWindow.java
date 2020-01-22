@@ -62,10 +62,8 @@ public class AllBooksWindow extends Stage implements LibWindow {
 				if(!AddNewBook.INSTANCE.isInitialized()) {
 					AddNewBook.INSTANCE.init();
 				}
-				AddNewBook.INSTANCE.show();
-				
-			}
-        	
+				AddNewBook.INSTANCE.show();	
+			} 	
         });
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);

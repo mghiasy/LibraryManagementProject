@@ -14,10 +14,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -25,45 +26,39 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AddNewBook extends Stage implements LibWindow {
-	public static final AddNewBook INSTANCE = new AddNewBook();
+public class AddNewCopy  extends Stage implements LibWindow {
+	public static final AddNewCopy INSTANCE = new AddNewCopy();
 	private Stage dialogStage;
+	private BookCopy bookCopy;
 	public Book book;
-	public BookCopy[] copies;
-	private AddNewBook() {
-	}
-
+	
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
-
+	
 	@Override
 	public void init() {
-		setTitle("Add new book");
+		setTitle("Add new book copy");
 		GridPane gp = new GridPane();
-		gp.setId("AddNewBookgp");
+		gp.setId("AddNewBookCopygp");
 		gp.setAlignment(Pos.CENTER);
 		gp.setHgap(10);
 		gp.setVgap(10);
 		gp.setPadding(new Insets(25, 25, 25, 25));
-		Text scenetitle = new Text("Add new book");
+		Text scenetitle = new Text("Add new Copy");
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
 		gp.add(scenetitle, 0, 0, 2, 1);
 
-		Label lblTitle = new Label("Title :");
-		gp.add(lblTitle, 0, 1);
-		TextField txtTitle = new TextField();
-		gp.add(txtTitle, 1, 1);
+		Label lblcopyNum = new Label("Copy Number :");
+		gp.add(lblcopyNum, 0, 1);
+		TextField txtcopyNum = new TextField();
+		gp.add(txtcopyNum, 1, 1);
 
-		Label lblisbn = new Label("ISBN :");
-		gp.add(lblisbn, 0, 2);
-		TextField txtIsbn = new TextField();
-		gp.add(txtIsbn, 1, 2);
+		Label lblIsAvailable = new Label("Is Available :");
+		gp.add(lblIsAvailable, 0, 2);
+		CheckBox chkbIsAvailable = new CheckBox();
+		gp.add(chkbIsAvailable, 1, 2);
 
-		Label lblmaxChkoutLength = new Label("Max checkout Lenght :");
-		gp.add(lblmaxChkoutLength, 0, 3);
-		TextField txtmaxChkoutLength = new TextField();
-		gp.add(txtmaxChkoutLength, 1, 3);
 
 		gp.setGridLinesVisible(false);
 		Address ad = new Address("a", "a", "a", "a");
@@ -76,30 +71,19 @@ public class AddNewBook extends Stage implements LibWindow {
 		Button addCopyBtn = new Button("Add copy");
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			//How to check bookCopy and Author is saved?
+
 			public void handle(ActionEvent e) {
-				if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
-					save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),authors);
+				if (isInputValid(txtcopyNum)) {
+					save(Integer.parseInt(txtcopyNum.getText()), chkbIsAvailable.isSelected());
 					dialogStage.close();
 				}
-			}
-		});
-		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				if(!AddNewCopy.INSTANCE.isInitialized()) {
-					AddNewBook.INSTANCE.init();
-					AddNewCopy.INSTANCE.book=AddNewBook.INSTANCE.book;
-				}
-				AddNewBook.INSTANCE.show();	
 			}
 		});
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				Start.hideAllWindows();
-				Start.primStage().show();
+				AddNewBook.INSTANCE.show();	
 			}
 		});
 		HBox hBack = new HBox(10);
@@ -111,6 +95,7 @@ public class AddNewBook extends Stage implements LibWindow {
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		setScene(scene);
+		
 	}
 
 	@Override
@@ -122,28 +107,12 @@ public class AddNewBook extends Stage implements LibWindow {
 	@Override
 	public void isInitialized(boolean val) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
-	private void save(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
-		// if (isInputValid()) {
-		book = new Book(isbn, title, maxCheckoutLength, authors);
-		DataAccess da = new DataAccessFacade();
-		da.saveNewBook(book);
-		// }
-	}
-
-	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,
-			List<Author> authors) {
+	private boolean isInputValid(TextField txtcopyNum) {
 		String errorMessage = "";
-		if (txtIsbn.getText() == null || txtIsbn.getText().length() == 0) {
-			errorMessage += "Please enter Isbn!\n";
-		}
-		if (txtTitle.getText() == null || txtTitle.getText().length() == 0) {
-			errorMessage += "Please enter title! \n";
-		}
-		if (txtmaxChkoutLength.getText() == null || txtmaxChkoutLength.getText().length() == 0) {
-			errorMessage += "Please enter maxCheckoutLength \n";
+		if (txtcopyNum.getText() == null || txtcopyNum.getText().length() == 0) {
+			errorMessage += "Please enter copy number!\n";
 		}
 		if (errorMessage.length() == 0) {
 			return false;
@@ -156,4 +125,11 @@ public class AddNewBook extends Stage implements LibWindow {
 			return false;
 		}
 	}
+	private void save(int copyNum,boolean isAvailable) {
+		bookCopy = new BookCopy(book, copyNum, isAvailable);
+		BookCopy[] copies = book.getCopies();
+		copies
+		AddNewBook.INSTANCE.copies=AddNewCopy.INSTANCE.bookCopy;
+	}
+
 }
