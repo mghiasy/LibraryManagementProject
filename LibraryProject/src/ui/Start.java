@@ -50,7 +50,19 @@ public class Start extends Application {
 			st.hide();
 		}
 	}
-	
+	public static void hideConfirmWindows() {
+		primStage.hide();
+		allWindows[4].hide();
+	}
+	public static Stage retLibrarianStartWindow() {
+		return allWindows[5];
+	}
+	public static void hideHistory() {
+		allWindows[7].hide();
+	}
+	public static Stage retDisplayMemberHistory() {
+		return allWindows[6];
+	}
 
 	@Override
 	public void start(Stage primaryStage) {

@@ -3,6 +3,7 @@ package ui;
 import business.ControllerInterface;
 import business.LoginException;
 import business.SystemController;
+import dataaccess.Auth;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -79,10 +80,19 @@ public class LoginWindow extends Stage implements LibWindow {
         	@Override
         	public void handle(ActionEvent e) {
         		try {
+        			
         			ControllerInterface c = new SystemController();
         			c.login(userTextField.getText().trim(), pwBox.getText().trim());
         			messageBar.setFill(Start.Colors.green);
              	    messageBar.setText("Login successful");
+             	    if(c.getcurrentAuth() == Auth.LIBRARIAN)
+             	    {
+                		 Start.hideAllWindows();
+            			if(!LibrarianStartWindow.INSTANCE.isInitialized()) {
+            				LibrarianStartWindow.INSTANCE.init();
+            			}
+            			LibrarianStartWindow.INSTANCE.show();
+                    }
         		} catch(LoginException ex) {
         			messageBar.setFill(Start.Colors.red);
         			messageBar.setText("Error! " + ex.getMessage());

@@ -1,6 +1,6 @@
 package ui;
 
-//test abanoub
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,8 +15,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AllBooksWindow extends Stage implements LibWindow {
-	public static final AllBooksWindow INSTANCE = new AllBooksWindow();
+public class History extends Stage implements LibWindow {
+	public static final History INSTANCE = new History();
 	
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
@@ -29,7 +29,9 @@ public class AllBooksWindow extends Stage implements LibWindow {
 	public void setData(String data) {
 		ta.setText(data);
 	}
-	private AllBooksWindow() {}
+	
+	/* This class is a singleton */
+	private History() {}
 	
 	public void init() {
 		GridPane grid = new GridPane();
@@ -39,40 +41,27 @@ public class AllBooksWindow extends Stage implements LibWindow {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("All Book IDs");
+        Text scenetitle = new Text("Member History");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
-		
+
 		ta = new TextArea();
-		grid.add(ta, 0,1);
+		grid.add(ta, 0,1);	
+		
 		Button backBtn = new Button("<= Back to Main");
-		Button newBookBtn = new Button("Add new book");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
+        		Start.hideHistory();
+        		Start.retDisplayMemberHistory().show();
         	}
-        });
-        newBookBtn.setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent event) {
-				Start.hideAllWindows();
-				if(!AddNewBook.INSTANCE.isInitialized()) {
-					AddNewBook.INSTANCE.init();
-				}
-				AddNewBook.INSTANCE.show();	
-			} 	
         });
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
-        hBack.getChildren().add(newBookBtn);
         grid.add(hBack, 0, 2);
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
 	}
-	
 }

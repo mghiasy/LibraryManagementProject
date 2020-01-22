@@ -48,7 +48,6 @@ public class DataAccessFacade implements DataAccess {
 				StorageType.MEMBERS);
 	}
 	
-	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
 		//Returns a Map with name/value pairs being
@@ -66,6 +65,7 @@ public class DataAccessFacade implements DataAccess {
 		bookList.forEach(book -> books.put(book.getIsbn(), book));
 		saveToStorage(StorageType.BOOKS, books);
 	}
+	
 	static void loadUserMap(List<User> userList) {
 		HashMap<String, User> users = new HashMap<String, User>();
 		userList.forEach(user -> users.put(user.getId(), user));
@@ -112,6 +112,13 @@ public class DataAccessFacade implements DataAccess {
 			}
 		}
 		return retVal;
+	}
+
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> newBook = readBooksMap();
+		String Isbn = book.getIsbn();
+		newBook.put(Isbn, book);
+		saveToStorage(StorageType.BOOKS, newBook);	
 	}
 	
 	
