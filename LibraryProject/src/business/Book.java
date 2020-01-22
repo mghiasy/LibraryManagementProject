@@ -96,6 +96,14 @@ final public class Book implements Serializable {
 		return isbn;
 	}
 	
+	public int clacCurrentCopyNums() {
+		int count = 0;
+		for ( BookCopy copy : copies)
+		{
+			if(copy.isAvailable()) {count++;}
+		}
+		return count;
+	}
 	public BookCopy getNextAvailableCopy() {	
 		Optional<BookCopy> optional 
 			= Arrays.stream(copies)

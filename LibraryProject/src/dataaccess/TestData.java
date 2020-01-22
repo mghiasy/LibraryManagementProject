@@ -7,6 +7,7 @@ import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.CheckoutRecord;
 import business.LibraryMember;
 
 
@@ -91,15 +92,21 @@ public class TestData {
 	//create library members
 	
 	public void libraryMemberData() {
-		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));
-		members.add(libraryMember);
-		libraryMember = new LibraryMember("1002", "Drew", "Stevens", "702-998-2414", addresses.get(5));
+		
+		CheckoutRecord  record1001 = new CheckoutRecord();
+		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4) , record1001 );
 		members.add(libraryMember);
 		
-		libraryMember = new LibraryMember("1003", "Sarah", "Eagleton", "451-234-8811", addresses.get(6));
+		CheckoutRecord  record1002 = new CheckoutRecord();
+		libraryMember = new LibraryMember("1002", "Drew", "Stevens", "702-998-2414", addresses.get(5),record1002);
 		members.add(libraryMember);
 		
-		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7));
+		CheckoutRecord  record1003 = new CheckoutRecord();
+		libraryMember = new LibraryMember("1003", "Sarah", "Eagleton", "451-234-8811", addresses.get(6),record1003);
+		members.add(libraryMember);
+		
+		CheckoutRecord  record1004 = new CheckoutRecord();
+		libraryMember = new LibraryMember("1004", "Ricardo", "Montalbahn", "641-472-2871", addresses.get(7),record1004);
 		members.add(libraryMember);
 		
 		DataAccessFacade.loadMemberMap(members);

@@ -41,6 +41,10 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+	public Auth getcurrentAuth()
+	{
+		return currentAuth;
+	}
 	
 	
 }

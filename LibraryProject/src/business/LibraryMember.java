@@ -9,10 +9,17 @@ import dataaccess.DataAccessFacade;
 
 final public class LibraryMember extends Person implements Serializable {
 	private String memberId;
+	private CheckoutRecord checkRecord ;
+
 	
-	public LibraryMember(String memberId, String fname, String lname, String tel,Address add) {
+	public CheckoutRecord getCheckRecord()
+	{
+		return this.checkRecord;
+	}
+	public LibraryMember(String memberId, String fname, String lname, String tel,Address add,CheckoutRecord checkout) {
 		super(fname,lname, tel, add);
-		this.memberId = memberId;		
+		this.memberId = memberId;	
+		this.checkRecord = checkout;
 	}
 	
 	
