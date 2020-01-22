@@ -5,7 +5,6 @@ import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
-import business.BookCopy;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
@@ -27,9 +26,9 @@ import javafx.stage.Stage;
 
 public class AddNewBook extends Stage implements LibWindow {
 	public static final AddNewBook INSTANCE = new AddNewBook();
+	private boolean isInitialized = false;
 	private Stage dialogStage;
 	public Book book;
-	public BookCopy[] copies;
 	private AddNewBook() {
 	}
 
@@ -39,6 +38,7 @@ public class AddNewBook extends Stage implements LibWindow {
 
 	@Override
 	public void init() {
+
 		setTitle("Add new book");
 		GridPane gp = new GridPane();
 		gp.setId("AddNewBookgp");
@@ -73,10 +73,9 @@ public class AddNewBook extends Stage implements LibWindow {
 
 		Button backBtn = new Button("<= Back to Main");
 		Button saveBtn = new Button("Save");
-		Button addCopyBtn = new Button("Add copy");
+
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-			//How to check bookCopy and Author is saved?
 			public void handle(ActionEvent e) {
 				if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
 					save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),authors);
@@ -84,17 +83,7 @@ public class AddNewBook extends Stage implements LibWindow {
 				}
 			}
 		});
-		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				if(!AddNewCopy.INSTANCE.isInitialized()) {
-					AddNewBook.INSTANCE.init();
-					AddNewCopy.INSTANCE.book=AddNewBook.INSTANCE.book;
-				}
-				AddNewBook.INSTANCE.show();	
-			}
-		});
+
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -106,22 +95,23 @@ public class AddNewBook extends Stage implements LibWindow {
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
 		hBack.getChildren().add(saveBtn);
-		hBack.getChildren().add(addCopyBtn);
 		gp.add(hBack, 1, 5);
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+		dialogStage = (Stage) scene.getWindow();
+		setDialogStage(dialogStage);
 		setScene(scene);
 	}
 
 	@Override
 	public boolean isInitialized() {
 		// TODO Auto-generated method stub
-		return false;
+		return isInitialized;
 	}
 
 	@Override
 	public void isInitialized(boolean val) {
-		// TODO Auto-generated method stub
+		isInitialized = val;
 
 	}
 
@@ -133,8 +123,8 @@ public class AddNewBook extends Stage implements LibWindow {
 		// }
 	}
 
-	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,
-			List<Author> authors) {
+	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,List<Author> authors) {
+		System.out.println("2");
 		String errorMessage = "";
 		if (txtIsbn.getText() == null || txtIsbn.getText().length() == 0) {
 			errorMessage += "Please enter Isbn!\n";
@@ -146,7 +136,7 @@ public class AddNewBook extends Stage implements LibWindow {
 			errorMessage += "Please enter maxCheckoutLength \n";
 		}
 		if (errorMessage.length() == 0) {
-			return false;
+			return true;
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(dialogStage);

@@ -65,10 +65,22 @@ public class AllBooksWindow extends Stage implements LibWindow {
 				AddNewBook.INSTANCE.show();	
 			} 	
         });
+		Button addCopyBtn = new Button("Add copy");
+		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Start.hideAllWindows();
+				if(!AddNewCopy.INSTANCE.isInitialized()) {
+					AddNewCopy.INSTANCE.init();
+				}
+				AddNewCopy.INSTANCE.show();	
+			}
+		});
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
         hBack.getChildren().add(newBookBtn);
+        hBack.getChildren().add(addCopyBtn);
         grid.add(hBack, 0, 2);
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());

@@ -2,23 +2,22 @@ package dataaccess;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS,BOOKCOPIES;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -55,6 +54,25 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public HashMap<String, BookCopy> readCopies() {
+		//Returns a Map with name/value pairs being
+		//   userId -> User
+		return (HashMap<String, BookCopy>)readFromStorage(StorageType.BOOKCOPIES);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public  List<String> readBooksIsdn() {
+		//Returns a Book ISDN for DropDownList
+		//   isbn -> Book
+		List<String> bookISBN = new ArrayList<String>();
+		HashMap<String,Book> bookMap= (HashMap<String,Book>)readFromStorage(StorageType.BOOKS);
+		for (Map.Entry<String,Book> bookEntry : bookMap.entrySet()) {
+			bookISBN.add(bookEntry.getValue().getIsbn());
+			
+		}
+		return bookISBN;
+	}
 	
 	/////load methods - these place test data into the storage area
 	///// - used just once at startup  
@@ -119,6 +137,15 @@ public class DataAccessFacade implements DataAccess {
 		String Isbn = book.getIsbn();
 		newBook.put(Isbn, book);
 		saveToStorage(StorageType.BOOKS, newBook);	
+	}
+
+	@Override
+	public void saveNewCopy(BookCopy bookCopy) {
+		HashMap<String, BookCopy> newBookCopy = readCopies();
+		String copyNum =String.valueOf(bookCopy.getCopyNum());
+		newBookCopy.put(copyNum, bookCopy);
+		saveToStorage(StorageType.BOOKCOPIES, newBookCopy);	
+		
 	}
 	
 	
