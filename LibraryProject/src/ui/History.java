@@ -1,13 +1,19 @@
 package ui;
 
 
+import business.ControllerInterface;
+import business.LibraryMember;
+import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -18,7 +24,7 @@ import javafx.stage.Stage;
 public class History extends Stage implements LibWindow {
 
 	public static final History INSTANCE = new History();
-	
+	private TableView<LibraryMember> table;
 	private boolean isInitialized = false;
 	public boolean isInitialized() {
 		return isInitialized;
@@ -29,6 +35,8 @@ public class History extends Stage implements LibWindow {
 	private TextArea ta;
 	public void setData(String data) {
 		ta.setText(data);
+		
+
 	}
 	
 	/* This class is a singleton */
@@ -48,6 +56,9 @@ public class History extends Stage implements LibWindow {
 
 		ta = new TextArea();
 		grid.add(ta, 0,1);	
+		
+	
+			
 		
 		Button backBtn = new Button("<= Back to Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
