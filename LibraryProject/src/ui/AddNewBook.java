@@ -174,7 +174,7 @@ public class AddNewBook extends Stage implements LibWindow {
 		}
 		// }
 	}
- 
+  
 	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,
 			List<Author> authors) {
 		String errorMessage = "";
