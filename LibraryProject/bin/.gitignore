@@ -1,0 +1,10 @@
+/ui/
+<<<<<<< HEAD
+/business/
+/dataaccess/
+/docs/
+/myUI/
+=======
+/dataaccess/
+/business/
+>>>>>>> 52717abdc51485a5b4a63b2decd5f7398df8c802

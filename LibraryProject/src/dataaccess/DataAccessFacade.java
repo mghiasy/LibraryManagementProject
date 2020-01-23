@@ -2,17 +2,18 @@ package dataaccess;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import business.Author;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
@@ -20,9 +21,8 @@ public class DataAccessFacade implements DataAccess {
 	enum StorageType {
 		BOOKS, MEMBERS, USERS;
 	}
-	
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
-			+ "\\src\\dataaccess\\storage";
+
+	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "/src/dataaccess/storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
 	//implement: other save operations
@@ -48,7 +48,6 @@ public class DataAccessFacade implements DataAccess {
 				StorageType.MEMBERS);
 	}
 	
-	
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
 		//Returns a Map with name/value pairs being
@@ -56,16 +55,25 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public  List<String> readBooksIsdn() {
+		//Returns a Book ISDN for DropDownList
+		//   isbn -> Book
+		List<String> bookISBN = new ArrayList<String>();
+		HashMap<String,Book> bookMap= (HashMap<String,Book>)readFromStorage(StorageType.BOOKS);
+		for (Map.Entry<String,Book> bookEntry : bookMap.entrySet()) {
+			bookISBN.add(bookEntry.getValue().getIsbn());
+			
+		}
+		return bookISBN;
+	}
 	
-	/////load methods - these place test data into the storage area
-	///// - used just once at startup  
-	//static void loadMemberMap(List<LibraryMember> memberList) {
-		
 	static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
 		bookList.forEach(book -> books.put(book.getIsbn(), book));
 		saveToStorage(StorageType.BOOKS, books);
 	}
+	
 	static void loadUserMap(List<User> userList) {
 		HashMap<String, User> users = new HashMap<String, User>();
 		userList.forEach(user -> users.put(user.getId(), user));
@@ -113,8 +121,13 @@ public class DataAccessFacade implements DataAccess {
 		}
 		return retVal;
 	}
-	
-	
+
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> newBook = readBooksMap();
+		String Isbn = book.getIsbn();
+		newBook.put(Isbn, book);
+		saveToStorage(StorageType.BOOKS, newBook);	
+	}
 	
 	/*final static class Pair<S,T> implements Serializable{
 		
