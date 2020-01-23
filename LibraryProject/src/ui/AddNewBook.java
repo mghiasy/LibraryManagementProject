@@ -77,34 +77,47 @@ public class AddNewBook extends Stage implements LibWindow {
 			@Override
 			public void handle(ActionEvent e) {
 				Start.hideAllWindows();
-				if(!BookCopies.INSTANCE.isInitialized()) {
+				if (!BookCopies.INSTANCE.isInitialized()) {
 					BookCopies.INSTANCE.init();
 				}
-				BookCopies.INSTANCE.show();	
+				BookCopies.INSTANCE.show();
 			}
 		});
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
-					System.out.println(authors.toString());
-					save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),
-							authors,copies);
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.initOwner(AddNewBook.INSTANCE);
-					alert.setContentText("Success!");
-					alert.showAndWait();
-					ControllerInterface ci = new SystemController();
-					List<String> ids = ci.allBookIds();
-					if (ids != null) {
-						Collections.sort(ids);
-						StringBuilder sb = new StringBuilder();
-						for (String s : ids) {
-							sb.append(s + "\n");
+				if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength)) {
+
+					if (authors != null && copies != null) {
+						save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),
+								authors, copies);
+
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.initOwner(AddNewBook.INSTANCE);
+						alert.setContentText("Success!");
+						alert.showAndWait();
+						ControllerInterface ci = new SystemController();
+						List<String> ids = ci.allBookIds();
+						if (ids != null) {
+							Collections.sort(ids);
+							StringBuilder sb = new StringBuilder();
+							for (String s : ids) {
+								sb.append(s + "\n");
+							}
+							AllBooksWindow.INSTANCE.setData(sb.toString());
+							AddNewBook.INSTANCE.close();
+							AllBooksWindow.INSTANCE.show();
 						}
-						AllBooksWindow.INSTANCE.setData(sb.toString());
-						AddNewBook.INSTANCE.close();
-						AllBooksWindow.INSTANCE.show();
+					} else if (authors == null) {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.initOwner(AddNewBook.INSTANCE);
+						alert.setContentText("Please insert authors!");
+						alert.showAndWait();
+					} else if (copies == null) {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.initOwner(AddNewBook.INSTANCE);
+						alert.setContentText("Please insert book copies!");
+						alert.showAndWait();
 					}
 				}
 			}
@@ -119,7 +132,7 @@ public class AddNewBook extends Stage implements LibWindow {
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
+				AddNewBook.INSTANCE.close();
 				AllBooksWindow.INSTANCE.show();
 			}
 		});
@@ -138,9 +151,9 @@ public class AddNewBook extends Stage implements LibWindow {
 		hBack.getChildren().add(backToMainBtn);
 		hBack.getChildren().add(backBtn);
 		hBack.getChildren().add(authorListBtn);
-        hBack.getChildren().add(addCopyBtn);
+		hBack.getChildren().add(addCopyBtn);
 		hBack.getChildren().add(saveBtn);
-		
+
 		gp.add(hBack, 1, 5);
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
@@ -163,20 +176,20 @@ public class AddNewBook extends Stage implements LibWindow {
 
 	}
 
-	private void save(String isbn, String title, int maxCheckoutLength, List<Author> authors,List<business.BookCopy> copies) {
+	private void save(String isbn, String title, int maxCheckoutLength, List<Author> authors,
+			List<business.BookCopy> copies) {
 		// if (isInputValid()) {
 		book = new Book(isbn, title, maxCheckoutLength, authors);
 		DataAccess da = new DataAccessFacade();
-		da.saveNewBook(book);
-		for(business.BookCopy bc : copies) {
-		//book.updateCopies(bc);
-		book.updateCopies(bc);
+		for (business.BookCopy bc : copies) {
+			book.addCopy();
 		}
+		da.saveNewBook(book);
+
 		// }
 	}
- 
-	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,
-			List<Author> authors) {
+
+	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength) {
 		String errorMessage = "";
 		if (txtIsbn.getText() == null || txtIsbn.getText().length() == 0) {
 			errorMessage += "Please enter Isbn!\n";
@@ -201,6 +214,6 @@ public class AddNewBook extends Stage implements LibWindow {
 
 	public void addCopies(List<business.BookCopy> bookCopyList) {
 		// TODO Auto-generated method stub
-		copies=bookCopyList;
+		copies = bookCopyList;
 	}
 }

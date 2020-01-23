@@ -1,5 +1,6 @@
 package ui; 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import business.BookCopy;
@@ -16,7 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+ 
 public class BookCopies extends Stage {
 	public static final BookCopies INSTANCE = new BookCopies();
 	private TextArea ta;
@@ -87,7 +88,14 @@ public class BookCopies extends Stage {
 		return false;
 	}
 
-	public void addCopy(String text, String value) {
+	public void addCopy(String copyNum, boolean  isAvailable) {
+		ta.appendText(copyNum +" --> Is available" + "\n");
+		
+		BookCopy bc = new BookCopy(AddNewBook.INSTANCE.book, Integer.parseInt(copyNum),isAvailable);
+		if(bookCopyList == null)
+		bookCopyList= new ArrayList<BookCopy>();
+		
+		bookCopyList.add(bc);
 		// TODO Auto-generated method stub
 		
 	}
