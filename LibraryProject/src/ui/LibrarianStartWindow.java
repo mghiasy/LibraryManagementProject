@@ -78,10 +78,10 @@ public class LibrarianStartWindow extends Stage implements LibWindow {
             public void handle(ActionEvent e) {
 
                 Start.hideAllWindows();
-//                if(!CheckoutWindow.INSTANCE.isInitialized()) {
-//                    CheckoutWindow.INSTANCE.init();
-//                }
-//                CheckoutWindow.INSTANCE.show();
+                if(!CheckoutWindow.INSTANCE.isInitialized()) {
+                    CheckoutWindow.INSTANCE.init();
+                }
+                CheckoutWindow.INSTANCE.show();
 
             }
         });
