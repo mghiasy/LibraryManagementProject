@@ -89,7 +89,7 @@ public class BookCopies extends Stage {
 	}
 
 	public void addCopy(String copyNum, boolean  isAvailable) {
-		ta.appendText(copyNum + "\n");
+		ta.appendText(copyNum +" --> Is available" + "\n");
 		
 		BookCopy bc = new BookCopy(AddNewBook.INSTANCE.book, Integer.parseInt(copyNum),isAvailable);
 		if(bookCopyList == null)

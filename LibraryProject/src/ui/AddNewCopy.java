@@ -47,10 +47,12 @@ public class AddNewCopy extends Stage implements LibWindow {
 		TextField txtcopyNum = new TextField();
 		gp.add(txtcopyNum, 1, 1);
 
-		Label lblIsAvailable = new Label("Is Available :");
-		gp.add(lblIsAvailable, 0, 2);
-		CheckBox chkbIsAvailable = new CheckBox();
-		gp.add(chkbIsAvailable, 1, 2);
+//		Label lblIsAvailable = new Label("Is Available :");
+//		gp.add(lblIsAvailable, 0, 2);
+//		CheckBox chkbIsAvailable = new CheckBox();
+//		chkbIsAvailable.setSelected(true);
+//		chkbIsAvailable.disableProperty()=true;
+//		gp.add(chkbIsAvailable, 1, 2);
 
 		gp.setGridLinesVisible(false);
 		Address ad = new Address("a", "a", "a", "a");
@@ -67,7 +69,7 @@ public class AddNewCopy extends Stage implements LibWindow {
 			public void handle(ActionEvent e) {
 				if (isInputValid(txtcopyNum)) {
 					INSTANCE.close();
-					BookCopies.INSTANCE.addCopy(txtcopyNum.getText(), chkbIsAvailable.isSelected());
+					BookCopies.INSTANCE.addCopy(txtcopyNum.getText(), true);
 					BookCopies.INSTANCE.show();
 				}
 			}

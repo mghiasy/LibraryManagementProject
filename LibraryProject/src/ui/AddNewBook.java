@@ -132,7 +132,7 @@ public class AddNewBook extends Stage implements LibWindow {
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
+				AddNewBook.INSTANCE.close();
 				AllBooksWindow.INSTANCE.show();
 			}
 		});
