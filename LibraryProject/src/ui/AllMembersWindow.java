@@ -8,6 +8,8 @@ import business.LibraryMember;
 import business.Person;
 import business.SystemController;
 import javafx.beans.Observable;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +27,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class AllMembersWindow extends Stage implements LibWindow {
 	public static final AllMembersWindow INSTANCE = new AllMembersWindow();
@@ -86,12 +89,28 @@ public class AllMembersWindow extends Stage implements LibWindow {
 		TableColumn addressCol = new TableColumn("Address");
 		addressCol.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("address"));
 
-//		TableColumn editCol = new TableColumn("Edit");
-//		//editCol.setEditable(true);
+		//Inserting Button Into Table
+		TableColumn editCol = new TableColumn("Edit");
+		editCol.setSortable(false);
+
+		//Un-Editable Column
+
+//		TableColumn col_id = new TableColumn("ID");
+//		table.getColumns().add(col_id);
+//		col_id.setCellValueFactory(new PropertyValueFactory<LibraryMember, String>("memberId"));
+//
+//		editCol.setCellValueFactory(
+//				new Callback<TableColumn.CellDataFeatures<LibraryMember, String>,
+//										ObservableValue<Boolean>>() {
+//					@Override
+//					public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LibraryMember, String> p) {
+//						return new SimpleBooleanProperty(p.getValue() != null);
+//					}
+//				});
 
 
 		table.setItems(data);
-		table.getColumns().setAll(nameCol, first_name, last_name, tel_Num, addressCol);
+		table.getColumns().setAll(nameCol, first_name, last_name, tel_Num, addressCol, editCol);
 		table.setPrefWidth(700);
 		//table.setPrefHeight(400);
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
