@@ -39,9 +39,14 @@ public class Start extends Application {
 	}
 	
 	private static Stage[] allWindows = { 
-		LoginWindow.INSTANCE,
-		AllMembersWindow.INSTANCE,	
-		AllBooksWindow.INSTANCE
+			LoginWindow.INSTANCE,
+			AllMembersWindow.INSTANCE,	
+			AllBooksWindow.INSTANCE,
+			CheckoutWindow.INSTANCE,
+			CheckoutBookConfirm.INSTANCE,
+			LibrarianStartWindow.INSTANCE,
+			DisplayMemberHistory.INSTANCE,
+			History.INSTANCE,
 	};
 	
 	public static void hideAllWindows() {
@@ -135,15 +140,18 @@ public class Start extends Application {
 				}
 				ControllerInterface ci = new SystemController();
 				List<String> ids = ci.allMemberIds();
-				Collections.sort(ids);
-				System.out.println(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
+				if(ids !=null) {
+					System.out.println("AA");
+					Collections.sort(ids);
+					System.out.println(ids);
+					StringBuilder sb = new StringBuilder();
+					for(String s: ids) {
+						sb.append(s + "\n");
+					}
+					System.out.println(sb.toString());
+					AllMembersWindow.INSTANCE.setData(sb.toString());
+					AllMembersWindow.INSTANCE.show();
 				}
-				System.out.println(sb.toString());
-				AllMembersWindow.INSTANCE.setData(sb.toString());
-				AllMembersWindow.INSTANCE.show();
             }
 		});	
 		optionsMenu.getItems().addAll(login, bookIds, memberIds);
