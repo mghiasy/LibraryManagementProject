@@ -34,10 +34,10 @@ import javafx.stage.Stage;
 public class AddNewCopy  extends Stage implements LibWindow {
 	public static final AddNewCopy INSTANCE = new AddNewCopy();
 	public business.BookCopy bookCopy;
-	
+
 	private AddNewCopy() {
 	}
-	
+
 	@Override
 	public void init() {
 		setTitle("Add new book copy");
@@ -58,7 +58,7 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		ObservableList<String> oListStavaka = FXCollections.observableArrayList(myList);
 		ComboBox<String> cmbBookList=new ComboBox<String>(oListStavaka);
 		gp.add(cmbBookList, 1, 1);
-		
+
 		Label lblcopyNum = new Label("Copy Number :");
 		gp.add(lblcopyNum, 0, 2);
 		TextField txtcopyNum = new TextField();
@@ -68,8 +68,8 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		gp.add(lblIsAvailable, 0, 3);
 		CheckBox chkbIsAvailable = new CheckBox();
 		gp.add(chkbIsAvailable, 1, 3);
-	
-		
+
+
 
 		gp.setGridLinesVisible(false);
 		Address ad = new Address("a", "a", "a", "a");
@@ -91,7 +91,7 @@ public class AddNewCopy  extends Stage implements LibWindow {
 			}
 			// }
 		});
-		
+
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -103,7 +103,7 @@ public class AddNewCopy  extends Stage implements LibWindow {
 			@Override
 			public void handle(ActionEvent e) {
 				Start.hideAllWindows();
-				Start.primStage().show();	
+				Start.primStage().show();
 			}
 		});
 		HBox hBack = new HBox(10);
@@ -113,7 +113,7 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		gp.add(hBack, 1, 5);
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-		setScene(scene);	
+		setScene(scene);
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class AddNewCopy  extends Stage implements LibWindow {
 	@Override
 	public void isInitialized(boolean val) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	private boolean isInputValid(TextField txtcopyNum,ComboBox<String> cmbBookList) {
 		System.out.println("2");

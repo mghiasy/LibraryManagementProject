@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class History extends Stage implements LibWindow {
+
 	public static final History INSTANCE = new History();
 	
 	private boolean isInitialized = false;
@@ -60,6 +61,7 @@ public class History extends Stage implements LibWindow {
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 2);
+
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);

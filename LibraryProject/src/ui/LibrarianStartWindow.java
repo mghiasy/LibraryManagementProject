@@ -22,12 +22,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LibrarianStartWindow extends Stage implements LibWindow {
+
 	public static final LibrarianStartWindow INSTANCE = new LibrarianStartWindow();
 	
 	private boolean isInitialized = false;
@@ -53,48 +55,89 @@ public class LibrarianStartWindow extends Stage implements LibWindow {
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 1, 1);
 
-        
-		Button backBtn = new Button("<= Back to Main");
-		Button checkoutBtn = new Button("Checkout");
-		Button displaytBtn = new Button("Display Member History");
+        Button backBtn = new Button("<= Back to Main");
+        backBtn.setStyle("-fx-background-color:  #8B0000;");
+        backBtn.setTextFill(Color.GHOSTWHITE);
+        Button checkoutBtn = new Button("Checkout");
+        checkoutBtn.setStyle("-fx-background-color:  #00003f;");
+        checkoutBtn.setTextFill(Color.GHOSTWHITE);
+        Button displaytBtn = new Button("Display Member History");
+        displaytBtn.setStyle("-fx-background-color:  #00003f;");
+        displaytBtn.setTextFill(Color.GHOSTWHITE);
 
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
-        	}
+            @Override
+            public void handle(ActionEvent e) {
+                Start.hideAllWindows();
+                Start.primStage().show();
+            }
         });
-        
+
         checkoutBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-       		
-        	Start.hideAllWindows();
-   			if(!CheckoutWindow.INSTANCE.isInitialized()) {
-   				CheckoutWindow.INSTANCE.init();
-   			}
-   			CheckoutWindow.INSTANCE.show();
-        		
-        	}
+            @Override
+            public void handle(ActionEvent e) {
+
+                Start.hideAllWindows();
+//                if(!CheckoutWindow.INSTANCE.isInitialized()) {
+//                    CheckoutWindow.INSTANCE.init();
+//                }
+//                CheckoutWindow.INSTANCE.show();
+
+            }
         });
 
         displaytBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-       		
-        	Start.hideAllWindows();
-   			if(!DisplayMemberHistory.INSTANCE.isInitialized()) {
-   				DisplayMemberHistory.INSTANCE.init();
-   			}
-   			DisplayMemberHistory.INSTANCE.show();
-        		
-        	}
+            @Override
+            public void handle(ActionEvent e) {
+
+                Start.hideAllWindows();
+                if(!DisplayMemberHistory.INSTANCE.isInitialized()) {
+                    DisplayMemberHistory.INSTANCE.init();
+                }
+                DisplayMemberHistory.INSTANCE.show();
+
+            }
         });
 
 
-        
-        
+//		Button backBtn = new Button("<= Back to Main");
+//		Button checkoutBtn = new Button("Checkout");
+//		Button displaytBtn = new Button("Display Member History");
+//
+//        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//        		Start.hideAllWindows();
+//        		Start.primStage().show();
+//        	}
+//        });
+//
+//        checkoutBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//
+//        	Start.hideAllWindows();
+//   			if(!CheckoutWindow.INSTANCE.isInitialized()) {
+//   				CheckoutWindow.INSTANCE.init();
+//   			}
+//   			CheckoutWindow.INSTANCE.show();
+//
+//        	}
+//        });
+//
+//        displaytBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//
+//        	Start.hideAllWindows();
+//   			if(!DisplayMemberHistory.INSTANCE.isInitialized()) {
+//   				DisplayMemberHistory.INSTANCE.init();
+//   			}
+//   			DisplayMemberHistory.INSTANCE.show();
+//
+//        	}
+//        });
+
         HBox hcheckout = new HBox(30);
         hcheckout.setAlignment(Pos.CENTER_LEFT);
         checkoutBtn.setPrefWidth(150);
@@ -113,12 +156,12 @@ public class LibrarianStartWindow extends Stage implements LibWindow {
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 7);
-        
-        
-		Scene scene = new Scene(grid, 400 , 300);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+
+        Scene scene = new Scene(grid, 400 , 300);
+        scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
         isInitialized(true);
-	}
+    }
+
 }
 

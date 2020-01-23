@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+
 import business.Book;
 import business.CheckoutEntry;
 import business.ControllerInterface;
@@ -31,6 +32,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DisplayMemberHistory extends Stage implements LibWindow {
+
 	public static final DisplayMemberHistory INSTANCE = new DisplayMemberHistory();
 	
 	private boolean isInitialized = false;
@@ -63,60 +65,111 @@ public class DisplayMemberHistory extends Stage implements LibWindow {
         //userTextField.setPrefColumnCount(10);
         //userTextField.setPrefWidth(30);
         grid.add(memberIdTextField, 0, 2);
-        
-        
-		Button backBtn = new Button("<= Back to Main");
-		Button displaytBtn = new Button("Display Member History");
+        Button backBtn = new Button("<= Back to Main");
+        Button displaytBtn = new Button("Display Member History");
 
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		Start.hideAllWindows();
-        		Start.primStage().show();
-        	}
+            @Override
+            public void handle(ActionEvent e) {
+                Start.hideAllWindows();
+                Start.primStage().show();
+            }
         });
 
-		DataAccess memb = new DataAccessFacade();
-		HashMap<String, LibraryMember> mapMemb = memb.readMemberMap();
+        DataAccess memb = new DataAccessFacade();
+        HashMap<String, LibraryMember> mapMemb = memb.readMemberMap();
 
         displaytBtn.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent e) {
-        		SystemController c = new SystemController();
-        		List<String> libMembs = c.allMemberIds();
-        		
-        		if(libMembs.contains(memberIdTextField.getText()))
-        		{
-    				if(!History.INSTANCE.isInitialized()) {
-    					History.INSTANCE.init();
-    				}
-        		
-    		        List<CheckoutEntry> chEntries = mapMemb.get(memberIdTextField.getText()).getCheckRecord().getCheckoutEntries();
-		    		
-    				for(CheckoutEntry  chEntry: chEntries)
-					{
-					  System.out.println("Title : " + chEntry.getBookCopy().getBook().getTitle() +"   ||Checkout Date : " + chEntry.getCheckoutDate() + "   ||Due Date : " +chEntry.getDueDate());
-					}
-		    		
-    				
-    				String s = null ;
-        		  	StringBuilder sb = new StringBuilder();
-        		  	for(CheckoutEntry  chEntry: chEntries)
-        			{
-        			    s = "Title : " + chEntry.getBookCopy().getBook().getTitle() +"  Checkout Date : " + chEntry.getCheckoutDate() + "  Due Date : " +chEntry.getDueDate();
-        				sb.append(s + "\n");
-        				//System.out.println(s);
-        			}
-        		  	History.INSTANCE.setData(sb.toString());
-        		  	History.INSTANCE.show();
-        			
-        		}else{
-        			System.out.println("Not Found");
-        		}
-        			
-        	}
+            @Override
+            public void handle(ActionEvent e) {
+                SystemController c = new SystemController();
+                List<String> libMembs = c.allMemberIds();
+
+                if(libMembs.contains(memberIdTextField.getText()))
+                {
+                    if(!History.INSTANCE.isInitialized()) {
+                        History.INSTANCE.init();
+                    }
+
+                    List<CheckoutEntry> chEntries = mapMemb.get(memberIdTextField.getText()).getCheckRecord().getCheckoutEntries();
+
+                    for(CheckoutEntry  chEntry: chEntries)
+                    {
+                        System.out.println("Title : " + chEntry.getBookCopy().getBook().getTitle() +"   ||Checkout Date : " + chEntry.getCheckoutDate() + "   ||Due Date : " +chEntry.getDueDate());
+                    }
+
+
+                    String s = null ;
+                    StringBuilder sb = new StringBuilder();
+                    for(CheckoutEntry  chEntry: chEntries)
+                    {
+                        s = "Title : " + chEntry.getBookCopy().getBook().getTitle() +"  Checkout Date : " + chEntry.getCheckoutDate() + "  Due Date : " +chEntry.getDueDate();
+                        sb.append(s + "\n");
+                        //System.out.println(s);
+                    }
+                    History.INSTANCE.setData(sb.toString());
+                    History.INSTANCE.show();
+
+                }else{
+                    System.out.println("Not Found");
+                }
+
+            }
         });
-        
+
+
+//		Button backBtn = new Button("<= Back to Main");
+//		Button displaytBtn = new Button("Display Member History");
+//
+//        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//        		Start.hideAllWindows();
+//        		Start.primStage().show();
+//        	}
+//        });
+//
+//		DataAccess memb = new DataAccessFacade();
+//		HashMap<String, LibraryMember> mapMemb = memb.readMemberMap();
+//
+//        displaytBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//        		SystemController c = new SystemController();
+//        		List<String> libMembs = c.allMemberIds();
+//
+//        		if(libMembs.contains(memberIdTextField.getText()))
+//        		{
+//    				if(!History.INSTANCE.isInitialized()) {
+//    					History.INSTANCE.init();
+//    				}
+//
+//    		        List<CheckoutEntry> chEntries = mapMemb.get(memberIdTextField.getText()).getCheckRecord().getCheckoutEntries();
+//
+//    				for(CheckoutEntry  chEntry: chEntries)
+//					{
+//					  System.out.println("Title : " + chEntry.getBookCopy().getBook().getTitle() +"   ||Checkout Date : " + chEntry.getCheckoutDate() + "   ||Due Date : " +chEntry.getDueDate());
+//					}
+//
+//
+//    				String s = null ;
+//        		  	StringBuilder sb = new StringBuilder();
+//        		  	for(CheckoutEntry  chEntry: chEntries)
+//        			{
+//        			    s = "Title : " + chEntry.getBookCopy().getBook().getTitle() +"  Checkout Date : " + chEntry.getCheckoutDate() + "  Due Date : " +chEntry.getDueDate();
+//        				sb.append(s + "\n");
+//        				//System.out.println(s);
+//        			}
+//        		  	History.INSTANCE.setData(sb.toString());
+//        		  	History.INSTANCE.show();
+//
+//        		}else{
+//        			System.out.println("Not Found");
+//        		}
+//
+//        	}
+//        });
+//
         HBox hDisplay= new HBox(30);
         hDisplay.setAlignment(Pos.CENTER_LEFT);
         displaytBtn.setPrefWidth(150);
@@ -128,8 +181,7 @@ public class DisplayMemberHistory extends Stage implements LibWindow {
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 7);
-        
-        
+
 		Scene scene = new Scene(grid, 400 , 300);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);

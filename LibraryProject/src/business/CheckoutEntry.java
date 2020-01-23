@@ -9,10 +9,9 @@ public class CheckoutEntry implements Serializable{
     private String dueDate;
     private BookCopy bookCopy;
     private CheckoutRecord checkoutRecord;//TODO: maybe it is not needed
-        
-    
+
     public CheckoutEntry(){}
-    
+
     public String getCheckoutDate() {
         return checkoutDate;
     }
@@ -36,7 +35,7 @@ public class CheckoutEntry implements Serializable{
     public void setBookCopy(BookCopy bookCopy) {
         this.bookCopy = bookCopy;
     }
-    
+
     public CheckoutRecord getCheckoutRecord() {
         return checkoutRecord;
     }

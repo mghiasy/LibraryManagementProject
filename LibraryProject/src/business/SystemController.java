@@ -3,16 +3,19 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import business.Book;
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
-	
+
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -24,14 +27,35 @@ public class SystemController implements ControllerInterface {
 			throw new LoginException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
-		
 	}
+
+	//Adding new members
+	public void addMember(LibraryMember m)
+	{
+		DataAccess data = new DataAccessFacade();
+		data.saveNewMember(m);
+	}
+
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
+		//Members
 		retval.addAll(da.readMemberMap().keySet());
 		return retval;
+	}
+
+
+	//Returns details of all lib members
+	public ObservableList allMembers() {
+		DataAccess da = new DataAccessFacade();
+//		List<LibraryMember> retval = new ArrayList<>();
+		HashMap<String, LibraryMember> map = da.readMemberMap();
+		ObservableList<LibraryMember> l= FXCollections.observableArrayList();
+		for(Map.Entry<String, LibraryMember> entry: map.entrySet()) {
+			l.add(entry.getValue());
+		}
+		return l;
 	}
 	
 	@Override
