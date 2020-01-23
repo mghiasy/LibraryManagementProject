@@ -11,13 +11,14 @@ final public class BookCopy implements Serializable {
 	private Book book;
 	private int copyNum;
 	private boolean isAvailable;
-	BookCopy(Book book, int copyNum, boolean isAvailable) {
+	//Maryam set this constructor to public ?
+	public BookCopy(Book book, int copyNum, boolean isAvailable) {
 		this.book = book;
 		this.copyNum = copyNum;
 		this.isAvailable = isAvailable;
 	}
-	
-	BookCopy(Book book, int copyNum) {
+	//Maryam set this constructor to public ?
+	public BookCopy(Book book, int copyNum) {
 		this.book = book;
 		this.copyNum = copyNum;
 	}

@@ -59,14 +59,14 @@ public class Start extends Application {
 			Both.INSTANCE,
 //			AddBookWindow.INSTANCE
 	};
-
-	public static Stage retDisplayMemberHistory() {
-		return allWindows[6];
-	}
-
-	public static void hideHistory() {
-		allWindows[7].hide();
-	}
+//
+//	public static Stage retDisplayMemberHistory() {
+//		return allWindows[6];
+//	}
+//
+//	public static void hideHistory() {
+//		allWindows[7].hide();
+//	}
 
 	public static void hideAllWindows() {
 		primStage.hide();
@@ -74,7 +74,6 @@ public class Start extends Application {
 			st.hide();
 		}
 	}
-
 	public static void hideAddWindow () {
 		allWindows[10].hide();
 	}
@@ -83,7 +82,20 @@ public class Start extends Application {
 		primStage.hide();
 		allWindows[5].hide();
 	}
-	
+
+	public static void hideConfirmWindows() {
+		primStage.hide();
+		allWindows[4].hide();
+	}
+	public static Stage retLibrarianStartWindow() {
+		return allWindows[5];
+	}
+	public static void hideHistory() {
+		allWindows[7].hide();
+	}
+	public static Stage retDisplayMemberHistory() {
+		return allWindows[6];
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -110,71 +122,92 @@ public class Start extends Application {
 		topContainer.getChildren().add(mainMenu);
 		topContainer.getChildren().add(splashBox);
 		topContainer.getChildren().add(imageHolder);
-		
-		Menu optionsMenu = new Menu("Options");
-		MenuItem login = new MenuItem("Login");
-		
-		login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-            	hideAllWindows();
-    			if(!LoginWindow.INSTANCE.isInitialized()) {
-    				LoginWindow.INSTANCE.init();
-    			}
-    			LoginWindow.INSTANCE.clear();
-    			LoginWindow.INSTANCE.show();
-            }
-        });			
-							
-		MenuItem bookIds = new MenuItem("All Book Ids");
-		bookIds.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
+
+		//Using button
+		Button lbtn = new Button("Continue To Login:)");
+		lbtn.setStyle("-fx-background-color: #2c5800;");
+		lbtn.setTextFill(Color.GHOSTWHITE);
+		lbtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
 				hideAllWindows();
-				if(!AllBooksWindow.INSTANCE.isInitialized()) {
-					AllBooksWindow.INSTANCE.init();
+				if(!LoginWindow.INSTANCE.isInitialized()) {
+					LoginWindow.INSTANCE.init();
 				}
-				ControllerInterface ci = new SystemController();
-				List<String> ids = ci.allBookIds();
-				Collections.sort(ids);
-				StringBuilder sb = new StringBuilder();
-				for(String s: ids) {
-					sb.append(s + "\n");
-				}
-				AllBooksWindow.INSTANCE.setData(sb.toString());
-				AllBooksWindow.INSTANCE.show();
-            }
+				LoginWindow.INSTANCE.clear();
+				LoginWindow.INSTANCE.show();
+			}
 		});
-		
-		MenuItem memberIds = new MenuItem("View Library Members");
-		memberIds.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-				hideAllWindows();
-				if(!AllMembersWindow.INSTANCE.isInitialized()) {
-					AllMembersWindow.INSTANCE.init();
-				}
-				ControllerInterface ci = new SystemController();
-				List<LibraryMember> members = ci.allMembers();
-				System.out.println(members);
-				StringBuilder sb = new StringBuilder();
 
-				ObservableList data = FXCollections.observableList(members);
+		//Using the menu option
+//		Menu optionsMenu = new Menu("Options");
+//		MenuItem login = new MenuItem("Login");
+//
+//		login.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent e) {
+//            	hideAllWindows();
+//    			if(!LoginWindow.INSTANCE.isInitialized()) {
+//    				LoginWindow.INSTANCE.init();
+//    			}
+//    			LoginWindow.INSTANCE.clear();
+//    			LoginWindow.INSTANCE.show();
+//            }
+//        });
 
-//				for(LibraryMember s: members) {
+		//view books in the library
+//		MenuItem bookIds = new MenuItem("All Book Ids");
+//		bookIds.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent e) {
+//				hideAllWindows();
+//				if(!AllBooksWindow.INSTANCE.isInitialized()) {
+//					AllBooksWindow.INSTANCE.init();
+//				}
+//				ControllerInterface ci = new SystemController();
+//				List<String> ids = ci.allBookIds();
+//				Collections.sort(ids);
+//				StringBuilder sb = new StringBuilder();
+//				for(String s: ids) {
 //					sb.append(s + "\n");
 //				}
+//				AllBooksWindow.INSTANCE.setData(sb.toString());
+//				AllBooksWindow.INSTANCE.show();
+//            }
+//		});
+		//view library members
+//		MenuItem memberIds = new MenuItem("View Library Members");
+//		memberIds.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent e) {
+//				hideAllWindows();
+//				if(!AllMembersWindow.INSTANCE.isInitialized()) {
+//					AllMembersWindow.INSTANCE.init();
+//				}
+//
+//				//System.out.println(members);
+////				StringBuilder sb = new StringBuilder();
 //
 //
+////				for(LibraryMember s: members) {
+////					sb.append(s + "\n");
+////				}
+////
+////
+////				System.out.println(sb.toString());
+////				AllMembersWindow.INSTANCE.setData(sb.toString());
+//				AllMembersWindow.INSTANCE.show();
+//            }
+//		});
+//		optionsMenu.getItems().addAll(login, bookIds, memberIds);
+//
+//		mainMenu.getMenus().addAll(optionsMenu);
 
-				System.out.println(sb.toString());
-				AllMembersWindow.INSTANCE.setData(sb.toString());
-				AllMembersWindow.INSTANCE.show();
-            }
-		});	
-		optionsMenu.getItems().addAll(login, bookIds, memberIds);
+		HBox hBack = new HBox(10);
+		hBack.setAlignment(Pos.BOTTOM_CENTER);
+		hBack.getChildren().add(lbtn);
+		topContainer.getChildren().add(hBack);
 
-		mainMenu.getMenus().addAll(optionsMenu);
 		Scene scene = new Scene(topContainer, 420, 375);
 		primaryStage.setScene(scene);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());

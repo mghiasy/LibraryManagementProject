@@ -42,5 +42,4 @@ public class CheckoutRecord implements Serializable{
         System.out.println(newEntry.getCheckoutDate() + "  " + newEntry.getDueDate());
     }
 
-
 }

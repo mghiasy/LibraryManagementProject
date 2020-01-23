@@ -22,6 +22,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Collections;
+import java.util.List;
+
 public class AdminAccess extends Stage implements LibWindow {
     public static final AdminAccess INSTANCE = new AdminAccess();
 
@@ -63,6 +66,8 @@ public class AdminAccess extends Stage implements LibWindow {
         addMember.setTextFill(Color.GHOSTWHITE);
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.CENTER);
+        addMember.setPrefWidth(150);
+        addMember.setPrefHeight(100);
         hbBtn.getChildren().add(addMember);
         grid.add(hbBtn, 0, 2);
 
@@ -71,48 +76,61 @@ public class AdminAccess extends Stage implements LibWindow {
         addBook.setTextFill(Color.GHOSTWHITE);
         HBox hbBtn1 = new HBox(10);
         hbBtn1.setAlignment(Pos.CENTER);
+        addBook.setPrefWidth(150);
+        addBook.setPrefHeight(100);
         hbBtn1.getChildren().add(addBook);
         grid.add(hbBtn1, 1, 2);
 
-        Button addCopy = new Button("Add Book Copy");
-        addCopy.setStyle("-fx-background-color: #00003f;");
-        addCopy.setTextFill(Color.GHOSTWHITE);
-        grid.add(addCopy, 2, 2);
+//        Button addCopy = new Button("Add Book Copy");
+//        addCopy.setStyle("-fx-background-color: #00003f;");
+//        addCopy.setTextFill(Color.GHOSTWHITE);
+//        grid.add(addCopy, 2, 2);
 
+        //add member action listener
         addMember.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
 
                 Start.hideAllWindows();
-                if (!NewMember.INSTANCE.isInitialized()) {
-                    NewMember.INSTANCE.init();
+                if (!AllMembersWindow.INSTANCE.isInitialized()) {
+                    AllMembersWindow.INSTANCE.init();
                 }
-                NewMember.INSTANCE.show();
+                AllMembersWindow.INSTANCE.show();
             }
         });
 
-        addCopy.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                Start.hideAllWindows();
-//                if (!AddCopyWindow.INSTANCE.isInitialized()) {
-//                    AddCopyWindow.INSTANCE.init();
-//                }
-//                AddCopyWindow.INSTANCE.show();
-               }
-        });
+//        addCopy.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent e) {
+//                Start.hideAllWindows();
+////                if (!AddCopyWindow.INSTANCE.isInitialized()) {
+////                    AddCopyWindow.INSTANCE.init();
+////                }
+////                AddCopyWindow.INSTANCE.show();
+//               }
+//        });
         addBook.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 Start.hideAllWindows();
-//                if (!AddBookWindow.INSTANCE.isInitialized()) {
-//                    AddBookWindow.INSTANCE.init();
-//                }
-//                AddBookWindow.INSTANCE.show();
+                if (!AllBooksWindow.INSTANCE.isInitialized()) {
+                    AllBooksWindow.INSTANCE.init();
+
+                }
+                ControllerInterface ci = new SystemController();
+                List<String> ids = ci.allBookIds();
+                Collections.sort(ids);
+                StringBuilder sb = new StringBuilder();
+                for(String s: ids) {
+                    sb.append(s + "\n");
+                }
+                AllBooksWindow.INSTANCE.setData(sb.toString());
+                AllBooksWindow.INSTANCE.show();
+
             }
         });
         Button backBtn = new Button("<< Back");
-        backBtn.setStyle("-fx-background-color: #2c5800;");
+        backBtn.setStyle("-fx-background-color: #8B0000;");
         backBtn.setTextFill(Color.GHOSTWHITE);
 
         backBtn.setOnAction(new EventHandler<ActionEvent>() {

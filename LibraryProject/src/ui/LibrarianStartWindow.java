@@ -22,29 +22,31 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class LibrarianStartWindow extends Stage implements LibWindow {
-    public static final LibrarianStartWindow INSTANCE = new LibrarianStartWindow();
 
-    private boolean isInitialized = false;
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-    public void isInitialized(boolean val) {
-        isInitialized = val;
-    }
+	public static final LibrarianStartWindow INSTANCE = new LibrarianStartWindow();
+	
+	private boolean isInitialized = false;
+	public boolean isInitialized() {
+		return isInitialized;
+	}
+	public void isInitialized(boolean val) {
+		isInitialized = val;
+	}
 
-    /* This class is a singleton */
-    private LibrarianStartWindow() {}
-
-    public void init() {
-        GridPane grid = new GridPane();
-        grid.setId("top-container");
-        grid.setAlignment(Pos.CENTER);
+	/* This class is a singleton */
+	private LibrarianStartWindow() {}
+	
+	public void init() {
+		GridPane grid = new GridPane();
+		grid.setId("top-container");
+		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
@@ -53,10 +55,15 @@ public class LibrarianStartWindow extends Stage implements LibWindow {
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 1, 1);
 
-
         Button backBtn = new Button("<= Back to Main");
+        backBtn.setStyle("-fx-background-color:  #8B0000;");
+        backBtn.setTextFill(Color.GHOSTWHITE);
         Button checkoutBtn = new Button("Checkout");
+        checkoutBtn.setStyle("-fx-background-color:  #00003f;");
+        checkoutBtn.setTextFill(Color.GHOSTWHITE);
         Button displaytBtn = new Button("Display Member History");
+        displaytBtn.setStyle("-fx-background-color:  #00003f;");
+        displaytBtn.setTextFill(Color.GHOSTWHITE);
 
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -93,7 +100,43 @@ public class LibrarianStartWindow extends Stage implements LibWindow {
         });
 
 
-
+//		Button backBtn = new Button("<= Back to Main");
+//		Button checkoutBtn = new Button("Checkout");
+//		Button displaytBtn = new Button("Display Member History");
+//
+//        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//        		Start.hideAllWindows();
+//        		Start.primStage().show();
+//        	}
+//        });
+//
+//        checkoutBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//
+//        	Start.hideAllWindows();
+//   			if(!CheckoutWindow.INSTANCE.isInitialized()) {
+//   				CheckoutWindow.INSTANCE.init();
+//   			}
+//   			CheckoutWindow.INSTANCE.show();
+//
+//        	}
+//        });
+//
+//        displaytBtn.setOnAction(new EventHandler<ActionEvent>() {
+//        	@Override
+//        	public void handle(ActionEvent e) {
+//
+//        	Start.hideAllWindows();
+//   			if(!DisplayMemberHistory.INSTANCE.isInitialized()) {
+//   				DisplayMemberHistory.INSTANCE.init();
+//   			}
+//   			DisplayMemberHistory.INSTANCE.show();
+//
+//        	}
+//        });
 
         HBox hcheckout = new HBox(30);
         hcheckout.setAlignment(Pos.CENTER_LEFT);
@@ -114,11 +157,11 @@ public class LibrarianStartWindow extends Stage implements LibWindow {
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 7);
 
-
         Scene scene = new Scene(grid, 400 , 300);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
         isInitialized(true);
     }
+
 }
 

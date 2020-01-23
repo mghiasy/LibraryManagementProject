@@ -65,15 +65,22 @@ public class Both extends Stage implements LibWindow {
         Text scenetitle = new Text("Admin and Librarian Window");
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
-        // add member
-        Button admin = new Button("Admin Access");
+
+        // Button links to the Administrator View
+        Button admin = new Button("Administrator Access");
+        admin.setStyle("-fx-background-color:  #00003f;");
+        admin.setTextFill(Color.GHOSTWHITE);
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.CENTER);
         hbBtn.getChildren().add(admin);
         grid.add(hbBtn, 0, 2);
 
-
-        Button librarian = new Button("Librarian Acess");
+        //Button links to the librarian View
+        Button librarian = new Button("Librarian Access");
+        librarian.setStyle("-fx-background-color:  #00003f;");
+        librarian.setTextFill(Color.GHOSTWHITE);
+        librarian.setPrefWidth(150);
+        librarian.setPrefHeight(100);
         HBox hbBtn1 = new HBox(20);
         hbBtn1.setAlignment(Pos.CENTER);
         hbBtn1.getChildren().add(librarian);
@@ -105,12 +112,16 @@ public class Both extends Stage implements LibWindow {
             }
         });
 
-        Button backBtn = new Button("<= Back to Main");
+        Button backBtn = new Button("<= Back");
+        backBtn.setStyle("-fx-background-color:  #8B0000;");
+        backBtn.setTextFill(Color.GHOSTWHITE);
+        backBtn.setPrefWidth(150);
+        backBtn.setPrefHeight(100);
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 Start.hideAllWindows();
-                Start.primStage().show();
+                AdminAccess.INSTANCE.show();
             }
         });
 

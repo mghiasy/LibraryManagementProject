@@ -10,7 +10,6 @@ public class CheckoutEntry implements Serializable{
     private BookCopy bookCopy;
     private CheckoutRecord checkoutRecord;//TODO: maybe it is not needed
 
-
     public CheckoutEntry(){}
 
     public String getCheckoutDate() {

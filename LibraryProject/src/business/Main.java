@@ -17,7 +17,6 @@ public class Main{
 		System.out.println(allHavingOverdueBook());
 		System.out.println(allHavingMultipleAuthors());
 
-
 	}
 	//Returns a list of all ids of LibraryMembers whose zipcode contains the digit 3
 	public static List<String> allWhoseZipContains3() {

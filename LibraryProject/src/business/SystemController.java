@@ -3,30 +3,18 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import business.Book;
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
-
-//	public void loginAdmin()
-//	{
-//		currentAuth = Auth.ADMIN;
-//	}
-//
-//	public void loginLibrarian()
-//	{
-//		currentAuth = Auth.LIBRARIAN;
-//	}
-//
-//	public void loginBoth()
-//	{
-//		currentAuth = Auth.BOTH;
-//	}
 
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
@@ -41,16 +29,13 @@ public class SystemController implements ControllerInterface {
 		currentAuth = map.get(id).getAuthorization();
 	}
 
-	//farahat
+	//Adding new members
 	public void addMember(LibraryMember m)
 	{
 		DataAccess data = new DataAccessFacade();
 		data.saveNewMember(m);
 	}
-	public Auth getcurrentAuth()
-	{
-		return currentAuth;
-	}
+
 	@Override
 	public List<String> allMemberIds() {
 		DataAccess da = new DataAccessFacade();
@@ -60,12 +45,17 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 
-	public List<LibraryMember> allMembers() {
+
+	//Returns details of all lib members
+	public ObservableList allMembers() {
 		DataAccess da = new DataAccessFacade();
-		List<LibraryMember> retval = new ArrayList<>();
-		//Members
-		retval.addAll(da.readMemberMap().values());
-		return retval;
+//		List<LibraryMember> retval = new ArrayList<>();
+		HashMap<String, LibraryMember> map = da.readMemberMap();
+		ObservableList<LibraryMember> l= FXCollections.observableArrayList();
+		for(Map.Entry<String, LibraryMember> entry: map.entrySet()) {
+			l.add(entry.getValue());
+		}
+		return l;
 	}
 	
 	@Override
@@ -74,6 +64,10 @@ public class SystemController implements ControllerInterface {
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
+	}
+	public Auth getcurrentAuth()
+	{
+		return currentAuth;
 	}
 	
 	

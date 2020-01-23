@@ -64,52 +64,52 @@ public class NewMember extends Stage implements LibWindow {
         //first name
         Label fName = new Label("First Name:");
         grid.add(fName, 0, 1);
-        TextField fNameField = new TextField();
+        TextField firstname = new TextField();
         //userTextField.setPrefColumnCount(10);
         //userTextField.setPrefWidth(30);
-        grid.add(fNameField, 0, 2);
+        grid.add(firstname, 0, 2);
         //last name
         Label lname = new Label("Last Name:");
         grid.add(lname, 1, 1);
-        TextField lNameField = new TextField();
-        grid.add(lNameField, 1, 2);
+        TextField lastname = new TextField();
+        grid.add(lastname, 1, 2);
         // id
         Label id = new Label("ID:");
         grid.add(id, 0,3);
-        TextField idField = new TextField();
-        grid.add(idField, 0, 4);
+        TextField memberId = new TextField();
+        grid.add(memberId, 0, 4);
         //tel
         Label tel = new Label("Tel:");
         grid.add(tel, 1, 3);
-        TextField telField = new TextField();
-        grid.add(telField, 1, 4);
+        TextField telNum= new TextField();
+        grid.add(telNum, 1, 4);
         //City
-        Label city = new Label("City:");
-        grid.add(city, 0,5);
-        TextField cityField = new TextField();
-        grid.add(cityField, 0, 6);
+        Label cityLabel = new Label("City:");
+        grid.add(cityLabel, 0,5);
+        TextField city = new TextField();
+        grid.add(city, 0, 6);
         //street
         Label street = new Label("Street:");
         grid.add(street, 1, 5);
         TextField streetField = new TextField();
         grid.add(streetField, 1, 6);
         //State
-        Label state = new Label("State:");
-        grid.add(state, 0, 7);
-        TextField stateField = new TextField();
-        grid.add(stateField, 0, 8);
+        Label stateLabel = new Label("State:");
+        grid.add(stateLabel, 0, 7);
+        TextField state = new TextField();
+        grid.add(state, 0, 8);
         //zip
-        Label zip = new Label("Zip:");
-        grid.add(zip, 1, 7);
-        TextField zipField = new TextField();
-        grid.add(zipField, 1, 8);
+        Label zipLabel = new Label("Zip:");
+        grid.add(zipLabel, 1, 7);
+        TextField zip = new TextField();
+        grid.add(zip, 1, 8);
 
 
         Button signUp = new Button("Save");
         signUp.setStyle("-fx-background-color: #468b00;");
         signUp.setTextFill(Color.GHOSTWHITE);
         HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.CENTER);//me: from Bottom_R to Bottom_c
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);//me: from Bottom_R to Bottom_c
         hbBtn.getChildren().add(signUp);
         grid.add(hbBtn, 1, 9);
 
@@ -122,27 +122,27 @@ public class NewMember extends Stage implements LibWindow {
             public void handle(ActionEvent e) {
 
                 messageBar.setFill(Start.Colors.red);
-                if(fNameField.getText().trim().length()== 0)
+                if(firstname.getText().trim().length()== 0)
                     messageBar.setText("Error, first name!");
-                else if(lNameField.getText().trim().length()== 0)
+                else if(lastname.getText().trim().length()== 0)
                     messageBar.setText("Error, last name!");
-                else if(idField.getText().trim().length()== 0)
+                else if(memberId.getText().trim().length()== 0)
                     messageBar.setText("Error, ID!");
-                else if(telField.getText().trim().length()== 0)
+                else if(telNum.getText().trim().length()== 0)
                     messageBar.setText("Error, Telephone Number!");
-                else if(cityField.getText().trim().length()== 0)
+                else if(city.getText().trim().length()== 0)
                     messageBar.setText("Error, City!");
-                else if(streetField.getText().trim().length()== 0)
+                else if(street.getText().trim().length()== 0)
                     messageBar.setText("Error, Street!");
-                else if(stateField.getText().trim().length()== 0)
+                else if(state.getText().trim().length()== 0)
                     messageBar.setText("Error,State!");
-                else if(zipField.getText().trim().length()== 0)
+                else if(zip.getText().trim().length()== 0)
                     messageBar.setText("Error, Zip!");
                 else {
-                    Address ad = new Address(streetField.getText().trim(),
-                            cityField.getText().trim(),stateField.getText().trim(),zipField.getText().trim());
+                    Address ad = new Address(street.getText().trim(),
+                            city.getText().trim(),state.getText().trim(),zip.getText().trim());
                     CheckoutRecord checkout = new CheckoutRecord();
-                    LibraryMember lm = new LibraryMember(idField.getText().trim(),fNameField.getText().trim(),lNameField.getText().trim(),telField.getText().trim(),ad);
+                    LibraryMember lm = new LibraryMember(memberId.getText().trim(),firstname.getText().trim(),lastname.getText().trim(),telNum.getText().trim(),ad,checkout);
                     ControllerInterface in = new SystemController();// modified
                     in.addMember(lm);
                     messageBar.setText("Successfully Added New Member");
@@ -155,21 +155,21 @@ public class NewMember extends Stage implements LibWindow {
         // back to admin window
         Button backBtn = new Button("<<Admin");
         backBtn.setOnAction(e -> backAdmin());
-        backBtn.setStyle("-fx-background-color: #2c5800;");
+        backBtn.setStyle("-fx-background-color: #8B0000;");
         backBtn.setTextFill(Color.GHOSTWHITE);
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
-        grid.add(hBack, 1, 10);
+        grid.add(hBack, 0, 10);
         //back to main
-        Button backBtn1 = new Button("<<Main");
-        backBtn1.setStyle("-fx-background-color: #2c5800;");
-        backBtn1.setTextFill(Color.GHOSTWHITE);
-        backBtn1.setOnAction(e -> back());
-        HBox hBack1 = new HBox(10);
-        hBack1.setAlignment(Pos.BOTTOM_LEFT);
-        hBack1.getChildren().add(backBtn1);
-        grid.add(hBack1, 0, 10);
+//        Button backBtn1 = new Button("<<Main");
+//        backBtn1.setStyle("-fx-background-color: #2c5800;");
+//        backBtn1.setTextFill(Color.GHOSTWHITE);
+//        backBtn1.setOnAction(e -> back());
+//        HBox hBack1 = new HBox(10);
+//        hBack1.setAlignment(Pos.BOTTOM_LEFT);
+//        hBack1.getChildren().add(backBtn1);
+//        grid.add(hBack1, 0, 10);
 
         Scene scene = new Scene(grid);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
@@ -184,7 +184,7 @@ public class NewMember extends Stage implements LibWindow {
     void backAdmin()
     {
         Start.hideAllWindows();
-        AdminAccess.INSTANCE.show();
+        AllMembersWindow.INSTANCE.show();
 
     }
 

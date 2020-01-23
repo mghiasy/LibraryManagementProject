@@ -16,27 +16,28 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class History extends Stage implements LibWindow {
-    public static final History INSTANCE = new History();
 
-    private boolean isInitialized = false;
-    public boolean isInitialized() {
-        return isInitialized;
-    }
-    public void isInitialized(boolean val) {
-        isInitialized = val;
-    }
-    private TextArea ta;
-    public void setData(String data) {
-        ta.setText(data);
-    }
-
-    /* This class is a singleton */
-    private History() {}
-
-    public void init() {
-        GridPane grid = new GridPane();
-        grid.setId("top-container");
-        grid.setAlignment(Pos.CENTER);
+	public static final History INSTANCE = new History();
+	
+	private boolean isInitialized = false;
+	public boolean isInitialized() {
+		return isInitialized;
+	}
+	public void isInitialized(boolean val) {
+		isInitialized = val;
+	}
+	private TextArea ta;
+	public void setData(String data) {
+		ta.setText(data);
+	}
+	
+	/* This class is a singleton */
+	private History() {}
+	
+	public void init() {
+		GridPane grid = new GridPane();
+		grid.setId("top-container");
+		grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
@@ -45,23 +46,24 @@ public class History extends Stage implements LibWindow {
         scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); //Tahoma
         grid.add(scenetitle, 0, 0, 2, 1);
 
-        ta = new TextArea();
-        grid.add(ta, 0,1);
-
-        Button backBtn = new Button("<= Back to Main");
+		ta = new TextArea();
+		grid.add(ta, 0,1);	
+		
+		Button backBtn = new Button("<= Back to Main");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                Start.hideHistory();
-                Start.retDisplayMemberHistory().show();
-            }
+        	@Override
+        	public void handle(ActionEvent e) {
+        		Start.hideHistory();
+        		Start.retDisplayMemberHistory().show();
+        	}
         });
         HBox hBack = new HBox(10);
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
         grid.add(hBack, 0, 2);
-        Scene scene = new Scene(grid);
-        scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
+
+		Scene scene = new Scene(grid);
+		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
-    }
+	}
 }
