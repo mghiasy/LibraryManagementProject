@@ -70,7 +70,7 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		gp.add(chkbIsAvailable, 1, 3);
 
 
-
+ 
 		gp.setGridLinesVisible(false);
 		Address ad = new Address("a", "a", "a", "a");
 		Author author = new Author("a", "b", "c", ad, "aa");
