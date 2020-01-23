@@ -2,17 +2,18 @@ package dataaccess;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import business.Author;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
@@ -54,11 +55,19 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public  List<String> readBooksIsdn() {
+		//Returns a Book ISDN for DropDownList
+		//   isbn -> Book
+		List<String> bookISBN = new ArrayList<String>();
+		HashMap<String,Book> bookMap= (HashMap<String,Book>)readFromStorage(StorageType.BOOKS);
+		for (Map.Entry<String,Book> bookEntry : bookMap.entrySet()) {
+			bookISBN.add(bookEntry.getValue().getIsbn());
+			
+		}
+		return bookISBN;
+	}
 	
-	/////load methods - these place test data into the storage area
-	///// - used just once at startup  
-	//static void loadMemberMap(List<LibraryMember> memberList) {
-		
 	static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
 		bookList.forEach(book -> books.put(book.getIsbn(), book));
@@ -119,8 +128,6 @@ public class DataAccessFacade implements DataAccess {
 		newBook.put(Isbn, book);
 		saveToStorage(StorageType.BOOKS, newBook);	
 	}
-	
-	
 	
 	/*final static class Pair<S,T> implements Serializable{
 		

@@ -39,6 +39,7 @@ public class Start extends Application {
 		static Color red = Color.FIREBRICK;
 	}
 
+
 //	public static class Colors {
 //		static Color green = Color.web("#034220");
 //		static Color red = Color.FIREBRICK;
@@ -48,8 +49,8 @@ public class Start extends Application {
 			LoginWindow.INSTANCE,
 			AllMembersWindow.INSTANCE,
 			AllBooksWindow.INSTANCE,
-//			CheckoutWindow.INSTANCE,
-//			CheckoutBookConfirm.INSTANCE,
+			CheckoutWindow.INSTANCE,
+			CheckoutBookConfirm.INSTANCE,
 			LibrarianStartWindow.INSTANCE,
 			DisplayMemberHistory.INSTANCE,
 			History.INSTANCE,
@@ -58,6 +59,7 @@ public class Start extends Application {
 //			AddCopyWindow.INSTANCE,
 			Both.INSTANCE,
 //			AddBookWindow.INSTANCE
+
 	};
 //
 //	public static Stage retDisplayMemberHistory() {
@@ -207,6 +209,7 @@ public class Start extends Application {
 		hBack.setAlignment(Pos.BOTTOM_CENTER);
 		hBack.getChildren().add(lbtn);
 		topContainer.getChildren().add(hBack);
+
 
 		Scene scene = new Scene(topContainer, 420, 375);
 		primaryStage.setScene(scene);

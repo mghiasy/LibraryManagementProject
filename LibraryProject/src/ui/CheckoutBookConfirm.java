@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -114,13 +115,21 @@ public class CheckoutBookConfirm extends Stage implements LibWindow {
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
+        		try {
+        		CheckoutRecord CheckRecord = member.getCheckRecord();
         		
-        	member.getCheckRecord().addEntry(currentBook.getNextAvailableCopy(), checkoutDate.toString(), dueDate.toString());	
+        		CheckRecord.addEntry(currentBook.getNextAvailableCopy(), checkoutDate.toString(), dueDate.toString()); 
+                //	member.getCheckRecord().addEntry(currentBook.getNextAvailableCopy(), checkoutDate.toString(), dueDate.toString());	
+
+				} catch (Exception e2) {
+					// TODO: handle exception
+					System.out.println(e2);
+				}
         	
         	currentBook.getNextAvailableCopy().changeAvailability();
         	storing.saveNewBook(currentBook);
         	storing.saveNewMember(currentMember);
-        	Start.hideConfirmWindows();
+        	//Start.hideConfirmWindows();
         	
         	}
         });
