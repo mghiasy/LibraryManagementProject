@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -85,8 +86,13 @@ public class CheckoutWindow extends Stage implements LibWindow {
 
         
         
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("<= Back");
+		 backBtn.setStyle("-fx-background-color:  #8B0000;");
+	     backBtn.setTextFill(Color.GHOSTWHITE);
 		Button SearchBtn = new Button("Search");
+		
+		SearchBtn.setStyle("-fx-background-color: #468b00;");
+		SearchBtn.setTextFill(Color.GHOSTWHITE);
 
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
@@ -95,7 +101,7 @@ public class CheckoutWindow extends Stage implements LibWindow {
         		//Start.retLibrarianStartWindow().show();
         		
         		Start.hideAllWindows();
-        		Start.primStage().show();
+        		LibrarianStartWindow.INSTANCE.show();
         	}
         });
         
