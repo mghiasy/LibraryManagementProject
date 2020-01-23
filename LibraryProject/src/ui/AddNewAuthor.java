@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -96,7 +97,7 @@ public class AddNewAuthor extends Stage implements LibWindow {
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
+				 if (isInputValid(txtFirstName, txtLastName, txttelephone, txtBio,txtStreet,txtCity,txtstate,txtzip)) {
 
 				Address address = new Address(txtStreet.getText(),txtCity.getText(), txtstate.getText(), txtzip.getText());
 
@@ -105,7 +106,7 @@ public class AddNewAuthor extends Stage implements LibWindow {
 				BookAuthors.INSTANCE.addAuther(author);
 				BookAuthors.INSTANCE.show();
 			}
-			// }
+			 }
 		});
 		backToMainBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -146,17 +147,43 @@ public class AddNewAuthor extends Stage implements LibWindow {
 
 	}
 
-//	private void save(String firstName, String lastName, String telephone, String bio, String street, String city,
-//			String state, String zip) {
-//		Address address = new Address(street, city, state, zip);
-//
-//		author = new Author(firstName, lastName, telephone, address, bio);
-//		if (AddNewBook.INSTANCE.authors != null) {
-//			AddNewBook.INSTANCE.authors.add(author);
-//		} else {
-//			AddNewBook.INSTANCE.authors = new ArrayList<Author>();
-//			AddNewBook.INSTANCE.authors.add(author);
-//		}
-//	}
+	private boolean isInputValid(TextField txtFirstName, TextField txtLastName, TextField txttelephone,TextField txtBio, TextField txtStreet, TextField txtCity,TextField txtstate,TextField txtzip) {
+		String errorMessage = "";
+		if (txtFirstName.getText() == null || txtFirstName.getText().length() == 0) {
+			errorMessage += "Please enter FirstName!\n";
+		}
+		if (txtLastName.getText() == null || txtLastName.getText().length() == 0) {
+			errorMessage += "Please enter LastName! \n";
+		}
+		if (txttelephone.getText() == null || txttelephone.getText().length() == 0) {
+			errorMessage += "Please enter telephone \n";
+		}
+		if (txtBio.getText() == null || txtBio.getText().length() == 0) {
+			errorMessage += "Please enter Bio \n";
+		}
+		if (txtStreet.getText() == null || txtStreet.getText().length() == 0) {
+			errorMessage += "Please enter Street \n";
+		}
+		if (txtstate.getText() == null || txtstate.getText().length() == 0) {
+			errorMessage += "Please enter state \n";
+		}
+		if (txtCity.getText() == null || txtCity.getText().length() == 0) {
+			errorMessage += "Please enter City \n";
+		}
+		if (txtzip.getText() == null || txtzip.getText().length() == 0) {
+			errorMessage += "Please enter zip \n";
+		}
+
+		if (errorMessage.length() == 0) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(AddNewBook.INSTANCE);
+			alert.setTitle("Invalid Input");
+			alert.setContentText(errorMessage);
+			alert.showAndWait();
+			return false;
+		}
+	}
 
 }

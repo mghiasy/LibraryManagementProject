@@ -93,12 +93,15 @@ public class CheckoutBookConfirm extends Stage implements LibWindow {
         grid.add(hBook, 0, 2);
         
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("<= Back");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
+        	 	//Start.hideAllWindows();
+        		//Start.retLibrarianStartWindow().show();
+        		
         		Start.hideAllWindows();
-        		Start.primStage().show();
+       CheckoutWindow.INSTANCE.show();
         	}
         });
          
@@ -129,7 +132,7 @@ public class CheckoutBookConfirm extends Stage implements LibWindow {
         	currentBook.getNextAvailableCopy().changeAvailability();
         	storing.saveNewBook(currentBook);
         	storing.saveNewMember(currentMember);
-        	//Start.hideConfirmWindows();
+        	Start.hideConfirmWindows();
         	
         	}
         });
