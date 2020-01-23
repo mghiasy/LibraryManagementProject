@@ -1,10 +1,13 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import business.Address;
 import business.Author;
 import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
@@ -27,13 +30,11 @@ import javafx.stage.Stage;
 public class AddNewBook extends Stage implements LibWindow {
 	public static final AddNewBook INSTANCE = new AddNewBook();
 	private boolean isInitialized = false;
-	private Stage dialogStage;
 	public Book book;
-	private AddNewBook() {
-	}
+	public List<Author> authors;
+	public List<business.BookCopy> copies;
 
-	public void setDialogStage(Stage dialogStage) {
-		this.dialogStage = dialogStage;
+	private AddNewBook() {
 	}
 
 	@Override
@@ -66,41 +67,88 @@ public class AddNewBook extends Stage implements LibWindow {
 		gp.add(txtmaxChkoutLength, 1, 3);
 
 		gp.setGridLinesVisible(false);
-		Address ad = new Address("a", "a", "a", "a");
-		Author author = new Author("a", "b", "c", ad, "aa");
-		List<Author> authors = new ArrayList<Author>();
-		authors.add(author);
 
-		Button backBtn = new Button("<= Back to Main");
+		Button backToMainBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("<= Back to list");
 		Button saveBtn = new Button("Save");
-
+		Button authorListBtn = new Button("List of authors");
+		Button addCopyBtn = new Button("List of copies");
+		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Start.hideAllWindows();
+				if(!BookCopies.INSTANCE.isInitialized()) {
+					BookCopies.INSTANCE.init();
+				}
+				BookCopies.INSTANCE.show();	
+			}
+		});
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
-					save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),authors);
-					dialogStage.close();
+					System.out.println(authors.toString());
+					save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),
+							authors,copies);
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.initOwner(AddNewBook.INSTANCE);
+					alert.setContentText("Success!");
+					alert.showAndWait();
+					ControllerInterface ci = new SystemController();
+					List<String> ids = ci.allBookIds();
+					if (ids != null) {
+						Collections.sort(ids);
+						StringBuilder sb = new StringBuilder();
+						for (String s : ids) {
+							sb.append(s + "\n");
+						}
+						AllBooksWindow.INSTANCE.setData(sb.toString());
+						AddNewBook.INSTANCE.close();
+						AllBooksWindow.INSTANCE.show();
+					}
 				}
 			}
 		});
-
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
+		backToMainBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				Start.hideAllWindows();
 				Start.primStage().show();
 			}
 		});
+		backBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Start.hideAllWindows();
+				AllBooksWindow.INSTANCE.show();
+			}
+		});
+		authorListBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Start.hideAllWindows();
+				if (!BookAuthors.INSTANCE.isInitialized()) {
+					BookAuthors.INSTANCE.init();
+				}
+				BookAuthors.INSTANCE.show();
+			}
+		});
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
+		hBack.getChildren().add(backToMainBtn);
 		hBack.getChildren().add(backBtn);
+		hBack.getChildren().add(authorListBtn);
+        hBack.getChildren().add(addCopyBtn);
 		hBack.getChildren().add(saveBtn);
+		
 		gp.add(hBack, 1, 5);
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-		dialogStage = (Stage) scene.getWindow();
-		setDialogStage(dialogStage);
 		setScene(scene);
+	}
+
+	public void addAuthers(List<Author> newAuthors) {
+		authors = newAuthors;
 	}
 
 	@Override
@@ -115,16 +163,20 @@ public class AddNewBook extends Stage implements LibWindow {
 
 	}
 
-	private void save(String isbn, String title, int maxCheckoutLength, List<Author> authors) {
+	private void save(String isbn, String title, int maxCheckoutLength, List<Author> authors,List<business.BookCopy> copies) {
 		// if (isInputValid()) {
 		book = new Book(isbn, title, maxCheckoutLength, authors);
 		DataAccess da = new DataAccessFacade();
 		da.saveNewBook(book);
+		for(business.BookCopy bc : copies) {
+		//book.updateCopies(bc);
+		book.updateCopies(bc);
+		}
 		// }
 	}
 
-	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,List<Author> authors) {
-		System.out.println("2");
+	private boolean isInputValid(TextField txtIsbn, TextField txtTitle, TextField txtmaxChkoutLength,
+			List<Author> authors) {
 		String errorMessage = "";
 		if (txtIsbn.getText() == null || txtIsbn.getText().length() == 0) {
 			errorMessage += "Please enter Isbn!\n";
@@ -139,11 +191,16 @@ public class AddNewBook extends Stage implements LibWindow {
 			return true;
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.initOwner(dialogStage);
+			alert.initOwner(AddNewBook.INSTANCE);
 			alert.setTitle("Invalid Input");
 			alert.setContentText(errorMessage);
 			alert.showAndWait();
 			return false;
 		}
+	}
+
+	public void addCopies(List<business.BookCopy> bookCopyList) {
+		// TODO Auto-generated method stub
+		copies=bookCopyList;
 	}
 }

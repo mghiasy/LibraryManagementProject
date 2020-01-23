@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import business.Address;
 import business.Author;
 import business.Book;
@@ -34,14 +33,9 @@ import javafx.stage.Stage;
 
 public class AddNewCopy  extends Stage implements LibWindow {
 	public static final AddNewCopy INSTANCE = new AddNewCopy();
-	private Stage dialogStage;
-	public Book book;
+	public business.BookCopy bookCopy;
 	
 	private AddNewCopy() {
-	}
-	
-	public void setDialogStage(Stage dialogStage) {
-		this.dialogStage = dialogStage;
 	}
 	
 	@Override
@@ -83,26 +77,29 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		List<Author> authors = new ArrayList<Author>();
 		authors.add(author);
 
-		Button backBtn = new Button("<= Back to Main");
-		Button saveBtn = new Button("Save copy");
-		Button addCopyBtn = new Button("Add copy");
-		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+		Button backToMainBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("<= Back to list");
+		Button addCopyBtn = new Button("Add");
+
+		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
-
 			public void handle(ActionEvent e) {
-				System.out.println("1");
-				if (isInputValid(txtcopyNum,cmbBookList)) {
-					System.out.println("3");
-					save(Integer.parseInt(txtcopyNum.getText()), chkbIsAvailable.isSelected(),cmbBookList.getValue());
-					System.out.println("4");
-
-					dialogStage.close();
-					System.out.println("5");
-
-				}
+				// if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
+				INSTANCE.close();
+				BookCopies.INSTANCE.addCopy(txtcopyNum.getText(),cmbBookList.getValue());
+				BookCopies.INSTANCE.show();
+			}
+			// }
+		});
+		
+		backBtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				AddNewCopy.INSTANCE.close();
+				AllBooksWindow.INSTANCE.show();
 			}
 		});
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
+		backToMainBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				Start.hideAllWindows();
@@ -112,13 +109,11 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
-		hBack.getChildren().add(saveBtn);
 		hBack.getChildren().add(addCopyBtn);
 		gp.add(hBack, 1, 5);
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-		setScene(scene);
-		
+		setScene(scene);	
 	}
 
 	@Override
@@ -145,25 +140,24 @@ public class AddNewCopy  extends Stage implements LibWindow {
 			return true;
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.initOwner(dialogStage);
 			alert.setTitle("Invalid Input");
 			alert.setContentText(errorMessage);
 			alert.showAndWait();
 			return false;
 		}
 	}
-	private void save(int copyNum,boolean isAvailable, String bookISDN) {
-
-		
-		DataAccess da = new DataAccessFacade();
-		HashMap<String,Book> books =da.readBooksMap();
-		for (Map.Entry<String,Book> bookEntry : books.entrySet()) {
-			if(bookEntry.getValue().getIsbn() == bookISDN) {
-				AddNewCopy.INSTANCE.book=bookEntry.getValue();
-			}
-		}
-		BookCopy bc =new BookCopy(AddNewCopy.INSTANCE.book, copyNum, isAvailable);
-		da.saveNewCopy(bc);
-	}
+//	private void save(int copyNum,boolean isAvailable, String bookISDN) {
+//
+//		
+//		DataAccess da = new DataAccessFacade();
+//		HashMap<String,Book> books =da.readBooksMap();
+//		for (Map.Entry<String,Book> bookEntry : books.entrySet()) {
+//			if(bookEntry.getValue().getIsbn() == bookISDN) {
+//				AddNewCopy.INSTANCE.book=bookEntry.getValue();
+//			}
+//		}
+//		BookCopy bc =new BookCopy(AddNewCopy.INSTANCE.book, copyNum, isAvailable);
+//		da.saveNewCopy(bc);
+//	}
 
 }

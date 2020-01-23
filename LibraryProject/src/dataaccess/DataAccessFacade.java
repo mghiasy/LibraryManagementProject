@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import business.Author;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
@@ -17,7 +19,7 @@ import business.LibraryMember;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS,BOOKCOPIES;
+		BOOKS, MEMBERS, USERS;
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
@@ -55,13 +57,6 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public HashMap<String, BookCopy> readCopies() {
-		//Returns a Map with name/value pairs being
-		//   userId -> User
-		return (HashMap<String, BookCopy>)readFromStorage(StorageType.BOOKCOPIES);
-	}
-	
-	@SuppressWarnings("unchecked")
 	public  List<String> readBooksIsdn() {
 		//Returns a Book ISDN for DropDownList
 		//   isbn -> Book
@@ -74,10 +69,6 @@ public class DataAccessFacade implements DataAccess {
 		return bookISBN;
 	}
 	
-	/////load methods - these place test data into the storage area
-	///// - used just once at startup  
-	//static void loadMemberMap(List<LibraryMember> memberList) {
-		
 	static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
 		bookList.forEach(book -> books.put(book.getIsbn(), book));
@@ -138,17 +129,6 @@ public class DataAccessFacade implements DataAccess {
 		newBook.put(Isbn, book);
 		saveToStorage(StorageType.BOOKS, newBook);	
 	}
-
-	@Override
-	public void saveNewCopy(BookCopy bookCopy) {
-		HashMap<String, BookCopy> newBookCopy = readCopies();
-		String copyNum =String.valueOf(bookCopy.getCopyNum());
-		newBookCopy.put(copyNum, bookCopy);
-		saveToStorage(StorageType.BOOKCOPIES, newBookCopy);	
-		
-	}
-	
-	
 	
 	/*final static class Pair<S,T> implements Serializable{
 		
