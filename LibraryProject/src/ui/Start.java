@@ -39,9 +39,14 @@ public class Start extends Application {
 	}
 	
 	private static Stage[] allWindows = { 
-		LoginWindow.INSTANCE,
-		AllMembersWindow.INSTANCE,	
-		AllBooksWindow.INSTANCE
+			LoginWindow.INSTANCE,
+			AllMembersWindow.INSTANCE,	
+			AllBooksWindow.INSTANCE,
+			CheckoutWindow.INSTANCE,
+			CheckoutBookConfirm.INSTANCE,
+			LibrarianStartWindow.INSTANCE,
+			DisplayMemberHistory.INSTANCE,
+			History.INSTANCE,
 	};
 	
 	public static void hideAllWindows() {
