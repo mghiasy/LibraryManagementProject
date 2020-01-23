@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -20,7 +22,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AddNewCopy  extends Stage implements LibWindow {
+public class AddNewCopy extends Stage implements LibWindow {
 	public static final AddNewCopy INSTANCE = new AddNewCopy();
 	public business.BookCopy bookCopy;
 
@@ -40,14 +42,6 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
 		gp.add(scenetitle, 0, 0, 2, 1);
 
-//		Label lblBookList = new Label("Select book :");
-//		gp.add(lblBookList, 0, 1);
-//		DataAccess da = new DataAccessFacade();
-//		List<String> myList =da.readBooksIsdn();
-//		ObservableList<String> oListStavaka = FXCollections.observableArrayList(myList);
-//		ComboBox<String> cmbBookList=new ComboBox<String>(oListStavaka);
-//		gp.add(cmbBookList, 1, 1);
-
 		Label lblcopyNum = new Label("Copy Number :");
 		gp.add(lblcopyNum, 0, 1);
 		TextField txtcopyNum = new TextField();
@@ -58,29 +52,27 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		CheckBox chkbIsAvailable = new CheckBox();
 		gp.add(chkbIsAvailable, 1, 2);
 
-
- 
 		gp.setGridLinesVisible(false);
 		Address ad = new Address("a", "a", "a", "a");
 		Author author = new Author("a", "b", "c", ad, "aa");
 		List<Author> authors = new ArrayList<Author>();
 		authors.add(author);
 
-		//Button backToMainBtn = new Button("<= Back to Main");
+		// Button backToMainBtn = new Button("<= Back to Main");
 		Button cancelBtn = new Button("Cancel");
 		Button addCopyBtn = new Button("Add");
 
 		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// if (isInputValid(txtIsbn, txtTitle, txtmaxChkoutLength, authors)) {
-				INSTANCE.close();
-				BookCopies.INSTANCE.addCopy(txtcopyNum.getText(),chkbIsAvailable.isSelected());
-				BookCopies.INSTANCE.show();
+				if (isInputValid(txtcopyNum)) {
+					INSTANCE.close();
+					BookCopies.INSTANCE.addCopy(txtcopyNum.getText(), chkbIsAvailable.isSelected());
+					BookCopies.INSTANCE.show();
+				}
 			}
-			// }
 		});
- 
+
 		cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -109,25 +101,22 @@ public class AddNewCopy  extends Stage implements LibWindow {
 		// TODO Auto-generated method stub
 
 	}
-//	private boolean isInputValid(TextField txtcopyNum,ComboBox<String> cmbBookList) {
-//		System.out.println("2");
-//		String errorMessage = "";
-//		if (txtcopyNum.getText() == null || txtcopyNum.getText().length() == 0) {
-//			errorMessage += "Please enter copy number!\n";
-//		}
-//		if (cmbBookList.getValue() == null || cmbBookList.getValue().length() == 0) {
-//			errorMessage += "Please select book!\n";
-//		}
-//		if (errorMessage.length() == 0) {
-//			return true;
-//		} else {
-//			Alert alert = new Alert(AlertType.ERROR);
-//			alert.setTitle("Invalid Input");
-//			alert.setContentText(errorMessage);
-//			alert.showAndWait();
-//			return false;
-//		}
-//	}
+
+	private boolean isInputValid(TextField txtcopyNum) {
+		String errorMessage = "";
+		if (txtcopyNum.getText() == null || txtcopyNum.getText().length() == 0) {
+			errorMessage += "Please enter copy number!\n";
+		}
+		if (errorMessage.length() == 0) {
+			return true;
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Invalid Input");
+			alert.setContentText(errorMessage);
+			alert.showAndWait();
+			return false;
+		}
+	}
 //	private void save(int copyNum,boolean isAvailable, String bookISDN) {
 //
 //		
