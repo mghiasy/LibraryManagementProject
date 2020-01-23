@@ -91,8 +91,11 @@ public class CheckoutWindow extends Stage implements LibWindow {
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
+        		//Start.hideAllWindows();
+        		//Start.retLibrarianStartWindow().show();
+        		
         		Start.hideAllWindows();
-        		Start.retLibrarianStartWindow().show();
+        		Start.primStage().show();
         	}
         });
         
