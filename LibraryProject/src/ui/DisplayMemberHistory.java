@@ -103,7 +103,7 @@ public class DisplayMemberHistory extends Stage implements LibWindow {
 
                     for(CheckoutEntry  chEntry: chEntries)
                     {
-                        System.out.println("Title : " + chEntry.getBookCopy().getBook().getTitle() +"   ||Checkout Date : " + chEntry.getCheckoutDate() + "   ||Due Date : " +chEntry.getDueDate());
+                        System.out.println("   ||Member Id : " + memberIdTextField.getText()+"Title : " + chEntry.getBookCopy().getBook().getTitle() +"   ||Checkout Date : " + chEntry.getCheckoutDate() + "   ||Due Date : " +chEntry.getDueDate() );
                     }
 
                     

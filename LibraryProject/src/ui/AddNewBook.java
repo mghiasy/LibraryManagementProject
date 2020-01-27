@@ -3,6 +3,9 @@ package ui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.sun.prism.paint.Color;
+
 import business.Address;
 import business.Author;
 import business.Book;
@@ -33,7 +36,7 @@ public class AddNewBook extends Stage implements LibWindow {
 	public Book book;
 	public List<Author> authors;
 	public List<business.BookCopy> copies;
-
+	private Label lblErrorMsg = new Label();
 	private AddNewBook() {
 	}
 
@@ -60,29 +63,39 @@ public class AddNewBook extends Stage implements LibWindow {
 		gp.add(lblisbn, 0, 2);
 		TextField txtIsbn = new TextField();
 		gp.add(txtIsbn, 1, 2);
-
+		
 		Label lblmaxChkoutLength = new Label("Max checkout Lenght :");
 		gp.add(lblmaxChkoutLength, 0, 3);
 		TextField txtmaxChkoutLength = new TextField();
 		gp.add(txtmaxChkoutLength, 1, 3);
+		
+		Label lblNumCopies = new Label("Num.Copies :");
+		gp.add(lblNumCopies, 0, 4);
+		TextField txtNumCopies = new TextField();
+		gp.add(txtNumCopies, 1,4);
 
+		//Label lblErrorMsg = new Label();
+		
+		gp.add(lblErrorMsg, 0, 7);
+		lblErrorMsg.setVisible(false);
+		
 		gp.setGridLinesVisible(false);
 
-		Button backToMainBtn = new Button("<= Back to Main");
-		Button backBtn = new Button("<= Back to list");
+		//Button backToMainBtn = new Button("<= Back to Main");
+		Button backBtn = new Button("<= Back");
 		Button saveBtn = new Button("Save");
 		Button authorListBtn = new Button("List of authors");
-		Button addCopyBtn = new Button("List of copies");
-		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				if (!BookCopies.INSTANCE.isInitialized()) {
-					BookCopies.INSTANCE.init();
-				}
-				BookCopies.INSTANCE.show();
-			}
-		});
+		//Button addCopyBtn = new Button("List of copies");
+//		addCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent e) {
+//				Start.hideAllWindows();
+//				if (!BookCopies.INSTANCE.isInitialized()) {
+//					BookCopies.INSTANCE.init();
+//				}
+//				BookCopies.INSTANCE.show();
+//			}
+//		});
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -90,7 +103,7 @@ public class AddNewBook extends Stage implements LibWindow {
 
 					if (authors != null && copies != null) {
 						save(txtIsbn.getText(), txtTitle.getText(), Integer.parseInt(txtmaxChkoutLength.getText()),
-								authors, copies);
+								authors, Integer.parseInt(txtNumCopies.getText()));
 
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.initOwner(AddNewBook.INSTANCE);
@@ -113,22 +126,23 @@ public class AddNewBook extends Stage implements LibWindow {
 						alert.initOwner(AddNewBook.INSTANCE);
 						alert.setContentText("Please insert authors!");
 						alert.showAndWait();
-					} else if (copies == null) {
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.initOwner(AddNewBook.INSTANCE);
-						alert.setContentText("Please insert book copies!");
-						alert.showAndWait();
 					}
+//					else if (copies == null) {
+//						Alert alert = new Alert(AlertType.ERROR);
+//						alert.initOwner(AddNewBook.INSTANCE);
+//						alert.setContentText("Please insert book copies!");
+//						alert.showAndWait();
+//					}
 				}
 			}
 		});
-		backToMainBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				Start.primStage().show();
-			}
-		});
+//		backToMainBtn.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent e) {
+//				Start.hideAllWindows();
+//				Start.primStage().show();
+//			}
+//		});
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -148,13 +162,13 @@ public class AddNewBook extends Stage implements LibWindow {
 		});
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
-		hBack.getChildren().add(backToMainBtn);
+//		hBack.getChildren().add(backToMainBtn);
 		hBack.getChildren().add(backBtn);
 		hBack.getChildren().add(authorListBtn);
-		hBack.getChildren().add(addCopyBtn);
+//		hBack.getChildren().add(addCopyBtn);
 		hBack.getChildren().add(saveBtn);
 
-		gp.add(hBack, 1, 5);
+		gp.add(hBack, 1, 8);
 		Scene scene = new Scene(gp);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
 		setScene(scene);
@@ -177,11 +191,11 @@ public class AddNewBook extends Stage implements LibWindow {
 	}
 
 	private void save(String isbn, String title, int maxCheckoutLength, List<Author> authors,
-			List<business.BookCopy> copies) {
+			int copyNum) {
 		// if (isInputValid()) {
 		book = new Book(isbn, title, maxCheckoutLength, authors);
 		DataAccess da = new DataAccessFacade();
-		for (business.BookCopy bc : copies) {
+		for (int i=0;i<=copyNum;i++) {
 			book.addCopy();
 		}
 		da.saveNewBook(book);
@@ -203,17 +217,17 @@ public class AddNewBook extends Stage implements LibWindow {
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.initOwner(AddNewBook.INSTANCE);
-			alert.setTitle("Invalid Input");
-			alert.setContentText(errorMessage);
-			alert.showAndWait();
+			lblErrorMsg.setText(errorMessage);
+			lblErrorMsg.setVisible(false);
+		//	lblErrorMsg.setTextFill(Color.RED);
+		//	(Color.RED);
+		
 			return false;
 		}
 	}
 
-	public void addCopies(List<business.BookCopy> bookCopyList) {
-		// TODO Auto-generated method stub
-		copies = bookCopyList;
-	}
+//	public void addCopies(List<business.BookCopy> bookCopyList) {
+//		// TODO Auto-generated method stub
+//		copies = bookCopyList;
+//	}
 }

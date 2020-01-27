@@ -1,9 +1,16 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import business.Address;
 import business.Author;
+import business.Book;
+import business.LibrarySystemException;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -42,10 +50,10 @@ public class AddNewCopy extends Stage implements LibWindow {
 		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
 		gp.add(scenetitle, 0, 0, 2, 1);
 
-		Label lblcopyNum = new Label("Copy Number :");
-		gp.add(lblcopyNum, 0, 1);
+		Label lblcopyNum = new Label("Number of copies  :");
+		gp.add(lblcopyNum, 0, 2);
 		TextField txtcopyNum = new TextField();
-		gp.add(txtcopyNum, 1, 1);
+		gp.add(txtcopyNum, 1, 2);
 
 //		Label lblIsAvailable = new Label("Is Available :");
 //		gp.add(lblIsAvailable, 0, 2);
@@ -53,12 +61,16 @@ public class AddNewCopy extends Stage implements LibWindow {
 //		chkbIsAvailable.setSelected(true);
 //		chkbIsAvailable.disableProperty()=true;
 //		gp.add(chkbIsAvailable, 1, 2);
+		
+		Label lblBookList = new Label("Select book :");
+		gp.add(lblBookList, 0, 1);
+		DataAccess da = new DataAccessFacade();
+		List<String> myList =da.readBooksIsdn();
+		ObservableList<String> oListStavaka = FXCollections.observableArrayList(myList);
+		ComboBox<String> cmbBookList=new ComboBox<String>(oListStavaka);
+		gp.add(cmbBookList, 1, 1);
 
 		gp.setGridLinesVisible(false);
-		Address ad = new Address("a", "a", "a", "a");
-		Author author = new Author("a", "b", "c", ad, "aa");
-		List<Author> authors = new ArrayList<Author>();
-		authors.add(author);
 
 		// Button backToMainBtn = new Button("<= Back to Main");
 		Button cancelBtn = new Button("Cancel");
@@ -69,8 +81,9 @@ public class AddNewCopy extends Stage implements LibWindow {
 			public void handle(ActionEvent e) {
 				if (isInputValid(txtcopyNum)) {
 					INSTANCE.close();
-					BookCopies.INSTANCE.addCopy(txtcopyNum.getText(), true);
-					BookCopies.INSTANCE.show();
+					addCopy(Integer.parseInt(txtcopyNum.getText()), cmbBookList.getValue());
+					Start.hideAllWindows();
+	        		Start.primStage().show();
 				}
 			}
 		});
@@ -119,18 +132,22 @@ public class AddNewCopy extends Stage implements LibWindow {
 			return false;
 		}
 	}
-//	private void save(int copyNum,boolean isAvailable, String bookISDN) {
-//
-//		
+	public void addCopy(int copyNum, String  ISBN) {
 //		DataAccess da = new DataAccessFacade();
-//		HashMap<String,Book> books =da.readBooksMap();
-//		for (Map.Entry<String,Book> bookEntry : books.entrySet()) {
-//			if(bookEntry.getValue().getIsbn() == bookISDN) {
-//				AddNewCopy.INSTANCE.book=bookEntry.getValue();
-//			}
+//		Book book = da.findBookByIsdn(ISBN);
+//		for (int i=1;i<=copyNum;i++) {
+//			book.addCopy();
 //		}
-//		BookCopy bc =new BookCopy(AddNewCopy.INSTANCE.book, copyNum, isAvailable);
-//		da.saveNewCopy(bc);
-//	}
+
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> bookSet = da.readBooksMap(); 
+		Book book = bookSet.get(ISBN); 
+		book.addCopy();
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.initOwner(AddNewCopy.INSTANCE);
+		alert.setContentText("Success!");
+		alert.showAndWait();
+	}
 
 }

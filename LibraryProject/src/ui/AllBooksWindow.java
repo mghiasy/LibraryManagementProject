@@ -47,11 +47,22 @@ public class AllBooksWindow extends Stage implements LibWindow {
 		grid.add(ta, 0,1);
 		Button backBtn = new Button("<= Back to Main");
 		Button newBookBtn = new Button("Add new book");
+		Button newCopyBtn = new Button("Add new Copy");
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
         	@Override
         	public void handle(ActionEvent e) {
         		Start.hideAllWindows();
         		Start.primStage().show();
+        	}
+        });
+        newCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+        	@Override
+        	public void handle(ActionEvent e) {
+				Start.hideAllWindows();
+				if(!AddNewCopy.INSTANCE.isInitialized()) {
+					AddNewCopy.INSTANCE.init();
+				}
+				AddNewCopy.INSTANCE.show();	
         	}
         });
         newBookBtn.setOnAction(new EventHandler<ActionEvent>(){
@@ -70,7 +81,8 @@ public class AllBooksWindow extends Stage implements LibWindow {
         hBack.setAlignment(Pos.BOTTOM_LEFT);
         hBack.getChildren().add(backBtn);
         hBack.getChildren().add(newBookBtn);
-
+        hBack.getChildren().add(newCopyBtn);
+        
         grid.add(hBack, 0, 2);
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());

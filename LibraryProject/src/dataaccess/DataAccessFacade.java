@@ -55,18 +55,18 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
 	}
 	
-//	@SuppressWarnings("unchecked")
-//	public  List<String> readBooksIsdn() {
-//		//Returns a Book ISDN for DropDownList
-//		//   isbn -> Book
-//		List<String> bookISBN = new ArrayList<String>();
-//		HashMap<String,Book> bookMap= (HashMap<String,Book>)readFromStorage(StorageType.BOOKS);
-//		for (Map.Entry<String,Book> bookEntry : bookMap.entrySet()) {
-//			bookISBN.add(bookEntry.getValue().getIsbn());
-//			
-//		}
-//		return bookISBN;
-//	}
+	@SuppressWarnings("unchecked")
+	public  List<String> readBooksIsdn() {
+		//Returns a Book ISDN for DropDownList
+		List<String> bookISBN = new ArrayList<String>();
+		HashMap<String,Book> bookMap= (HashMap<String,Book>)readFromStorage(StorageType.BOOKS);
+		for (Map.Entry<String,Book> bookEntry : bookMap.entrySet()) {
+			bookISBN.add(bookEntry.getValue().getIsbn());
+			
+		}
+		return bookISBN;
+	}
+	
 	
 	static void loadBookMap(List<Book> bookList) {
 		HashMap<String, Book> books = new HashMap<String, Book>();
@@ -127,6 +127,18 @@ public class DataAccessFacade implements DataAccess {
 		String Isbn = book.getIsbn();
 		newBook.put(Isbn, book);
 		saveToStorage(StorageType.BOOKS, newBook);	
+	}
+
+	@Override
+	public Book findBookByIsdn(String ISBN) {
+		Book book = null;
+		HashMap<String,Book> books=readBooksMap();
+		for(Map.Entry<String,Book> entry: books.entrySet()) {
+			if(ISBN.equals(entry.getValue().getIsbn())) {
+				book=entry.getValue();
+			}
+		}
+		return book;
 	}
 	
 	/*final static class Pair<S,T> implements Serializable{

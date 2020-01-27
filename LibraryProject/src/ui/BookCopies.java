@@ -39,7 +39,7 @@ public class BookCopies extends Stage {
 
 		grid.add(ta, 0, 1);
 		Button backBtn = new Button("<= Back");
-		Button newCopyBtn = new Button("Add new Copy");
+//		Button newCopyBtn = new Button("Add new Copy");
 		Button okBtn = new Button("Ok");
 
 		backBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -49,29 +49,30 @@ public class BookCopies extends Stage {
 				AddNewBook.INSTANCE.show();
 			}
 		});
-		newCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Start.hideAllWindows();
-				if (!AddNewCopy.INSTANCE.isInitialized()) {
-					AddNewCopy.INSTANCE.init();
-				}
-				AddNewCopy.INSTANCE.show();
-			}
-		});
+//		newCopyBtn.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//				Start.hideAllWindows();
+//				if (!AddNewCopy.INSTANCE.isInitialized()) {
+//					AddNewCopy.INSTANCE.init();
+//				}
+//				AddNewCopy.INSTANCE.show();
+//			}
+//		});
 		okBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				INSTANCE.close();
-				AddNewBook.INSTANCE.addCopies(bookCopyList);
-				AddNewBook.INSTANCE.show();
+//				AddNewBook.INSTANCE.addCopies(bookCopyList);
+//				AddNewBook.INSTANCE.show();
+		//		addCopy
 			}
 		});
 		HBox hBack = new HBox(10);
 		hBack.setAlignment(Pos.BOTTOM_LEFT);
 		hBack.getChildren().add(backBtn);
 		hBack.getChildren().add(okBtn);
-		hBack.getChildren().add(newCopyBtn);
+//		hBack.getChildren().add(newCopyBtn);
 
 		grid.add(hBack, 0, 2);
 		Scene scene = new Scene(grid);
@@ -89,16 +90,18 @@ public class BookCopies extends Stage {
 	}
 
 	public void addCopy(String copyNum, boolean  isAvailable) {
-		ta.appendText(copyNum +" --> Is available" + "\n");
+		//ta.appendText(copyNum +" --> Is available" + "\n");
 		
-		BookCopy bc = new BookCopy(AddNewBook.INSTANCE.book, Integer.parseInt(copyNum),isAvailable);
-		if(bookCopyList == null)
-		bookCopyList= new ArrayList<BookCopy>();
-		
-		bookCopyList.add(bc);
+		//BookCopy bc = new BookCopy(AddNewBook.INSTANCE.book, Integer.parseInt(copyNum),isAvailable);
+//		if(bookCopyList == null)
+//		bookCopyList= new ArrayList<BookCopy>();
+//		
+//		bookCopyList.add(bc);
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 
 }
